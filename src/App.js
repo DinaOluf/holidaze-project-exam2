@@ -1,24 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { Routes, Route, Outlet } from 'react-router-dom';
+
+function Header() {
+  // return (
+  //   <header>
+  //     <Nav />
+  //   </header>
+  // );
+}
+
+function Footer() {
+  // return <footer>© Dina Olufsen 2023</footer>;
+}
+
+function Layout() {
+  return (
+    <>
+      {/* <Header />
+        <Outlet />
+      <Footer /> */}
+    </>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="*" element={<RouteNotFound />} />
+        </Route>
+      </Routes> */}
+    </>
   );
 }
 
