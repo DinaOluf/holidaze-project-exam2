@@ -1,2 +1,0 @@
-# holidaze-project-exam2
- 
