@@ -1,4 +1,26 @@
-.App {
+@font-face {
+  font-family: "Mercy";
+  src: url("./assets/fonts/mercy.regular.ttf") format("truetype");
+  }
+@font-face {
+  font-family: "Alegreya";
+  src: url("./assets/fonts/alegreya.regular.ttf") format("truetype");
+}
+
+  h1, h2, h3, h4, h5, h6, nav {
+    font-family: "Mercy", Arial, Helvetica, sans-serif;
+  }
+
+  main, footer {
+    font-family: "Alegreya", 'Times New Roman', Times, serif;
+  }
+
+  main {
+    padding-bottom: 2.5rem;
+    height: 100%;
+  }
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +57,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

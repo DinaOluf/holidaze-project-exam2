@@ -1,40 +1,64 @@
 import './App.css';
 import React from 'react';
 import { Routes, Route, Outlet } from 'react-router-dom';
+import Background from './components/background';
+import { HeaderBar } from './components/styles/header.styles';
+import { FooterBar } from './components/styles/footer.styles';
+import Nav from './components/nav';
+import Home from './components/pages/homePage';
+import LoginPage from './components/pages/loginPage';
+import RegisterPage from './components/pages/registerPage';
+import ProfilePage from './components/pages/profilePage';
+import VenuePage from './components/pages/venuePage';
+import NewVenuePage from './components/pages/newVenuePage';
+import BookedPage from './components/pages/bookedPage';
+import LogoutPage from './components/pages/logoutPage';
+import RouteNotFound from './components/pages/notFoundPage';
+import "/node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "/node_modules/bootstrap/dist/js/bootstrap.bundle.min";
+
 
 function Header() {
-  // return (
-  //   <header>
-  //     <Nav />
-  //   </header>
-  // );
+  return (
+    <HeaderBar>
+      <Nav />
+    </HeaderBar>
+  );
 }
 
 function Footer() {
-  // return <footer>© Dina Olufsen 2023</footer>;
+  return <FooterBar>© Dina Olufsen 2023</FooterBar>;
 }
 
 function Layout() {
   return (
     <>
-      {/* <Header />
+      <Header />
         <Outlet />
-      <Footer /> */}
+        <Background />
+      <Footer />
     </>
   );
 }
 
+
+
 function App() {
   return (
     <>
-      {/* <Routes>
+      <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="venue" element={<VenuePage />} />
+          <Route path="new-venue" element={<NewVenuePage />} />
+          <Route path="booked-success" element={<BookedPage />} />
+          <Route path="logout" element={<LogoutPage />} />
           <Route path="*" element={<RouteNotFound />} />
         </Route>
-      </Routes> */}
+      </Routes>
     </>
   );
 }
