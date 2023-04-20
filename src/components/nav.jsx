@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import holidazeLogo from "../assets/images/holidaze-logo.png";
 import { Logo } from './styles/logo.styles';
-import { NavLink } from './styles/navList.styles';
+import { NavLink } from './styles/navLink.styles';
 
 function Nav() {
     return (

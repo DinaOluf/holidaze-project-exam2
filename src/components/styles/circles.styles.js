@@ -9,6 +9,11 @@ const Circle1 = styled.div`
     border-radius: 50%;
     background: #f188422d;
     z-index: -1;
+
+    @media (max-width: 960px) {
+        width: 15rem;
+        height: 15rem;
+    }
 `;
 
 const Circle2 = styled.div`
@@ -20,6 +25,11 @@ const Circle2 = styled.div`
     border-radius: 50%;
     background: #4958702d;
     z-index: -1;
+
+    @media (max-width: 960px) {
+        width: 12rem;
+        height: 12rem;
+    }
 `;
 
 export {Circle1, Circle2};

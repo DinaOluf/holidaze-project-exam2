@@ -10,7 +10,7 @@ function Home() {
      }, []);
 
     return (
-        <main className="container">
+        <main className="container d-flex flex-column justify-content-center">
             <div>
                 Home
             </div>
