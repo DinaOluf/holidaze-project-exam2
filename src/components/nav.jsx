@@ -14,11 +14,11 @@ function Nav() {
             </div>
             <div className='col px-0'>
                 <ul className='row mb-0 list-style-type-none list-unstyled justify-content-end'>
-                    <li className='col-4 col-sm-3 col-md-2 col-xxl-1 px-0 me-2'>
+                    {/* <li className='col-4 col-sm-3 col-md-2 col-xxl-1 px-0 me-2'>
                         <NavLink to='New-Venue'>
                             New Venue
                         </NavLink>
-                    </li>
+                    </li> */}
                     <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0'>
                         <NavLink to='Register'>
                             Register
