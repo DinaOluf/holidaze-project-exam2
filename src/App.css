@@ -11,13 +11,21 @@
     font-family: "Mercy", Arial, Helvetica, sans-serif;
   }
 
+  #root {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   main, footer {
     font-family: "Alegreya", 'Times New Roman', Times, serif;
   }
 
   main {
-    padding-bottom: 2.5rem;
-    height: 100%;
+    padding-bottom: auto;
+    margin-bottom: 2.5rem;
   }
 
 /* .App {
