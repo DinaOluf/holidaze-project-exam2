@@ -5,7 +5,7 @@ import { NavLink } from './styles/navLink.styles';
 
 function Nav() {
     return (
-        <nav className='row h-100 w-100 align-items-center'>
+        <nav className='row h-100 w-100 align-items-center py-3'>
             <div className='col-4 col-sm-4 col-md-3 col-xl-2 d-flex justify-content-end px-0 ms-1'>
                 <Link to='/' className='d-flex align-items-center text-decoration-none' aria-label='takes you back to front page'>
                     <Logo src={holidazeLogo} alt='The Holidaze brand logo. A house shape with a circle in the middle depicting the sun' className='mb-2' />

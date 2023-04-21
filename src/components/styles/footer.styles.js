@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const FooterBar = styled.footer`
-    position: absolute;
-    bottom: 0;
+    margin-top: auto;
+    padding: 1rem 0 1rem 0;
     width: 100%;
     height: 2.5rem;
     background-color: white;
