@@ -19,7 +19,7 @@ export const SearchWrap = styled.div`
         margin: 0 0 0 0.3rem;
 
         :focus {
-            outline: solid 1px #F18842;
+            outline: solid 2px #F18842;
         }
     }
 

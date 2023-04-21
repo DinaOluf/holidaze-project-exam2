@@ -1,13 +1,14 @@
-// import { Link } from "react-router-dom";
-// import { Links } from "../styles/links.style";
 import MagnifyingGlass from "../../assets/images/search-icon.png";
 import { SearchWrap } from "../styles/searchWrap.styled";
+import { VenueCard } from "../styles/venueCard.styles";
+import { Hidden } from "../styles/hidden.styles";
 import React, { useEffect } from 'react';
 import PersonIcon from "../../assets/images/person-icon.png";
 import WifiIcon from "../../assets/images/wifi-icon.png";
 import ParkingIcon from "../../assets/images/parking-icon.png";
 import FoodIcon from "../../assets/images/breakfast-icon.png";
 import PetsIcon from "../../assets/images/pets-icon.png";
+import HousePlaceholder from "../../assets/images/house-PLACEHOLDER.jpg";
 
 function Home() {
     useEffect(() => {
@@ -15,34 +16,93 @@ function Home() {
      }, []);
 
     return (
-        <main className="container d-flex flex-column">
-            <h1 className="make-this-accessibly-invisible">
-                Home
-            </h1>
+        <main className="container d-flex flex-column p-5">
+            <Hidden>
+                <h1 className="make-this-accessibly-invisible">
+                    Front page
+                </h1>
+            </Hidden>
             <SearchWrap className="align-self-center">
                 <img src={ MagnifyingGlass } alt="" />
                 <input></input>
             </SearchWrap>
-            <div className="d-flex">
-                <div className="CARD">
-                    <img src={PetsIcon} className="venue-images" alt="" />
-                    <div>
-                        <h2>Title</h2>
-                        <div className="">
+            <div className="d-flex justify-content-center gap-4 mt-4 flex-wrap">
+                <VenueCard to="/">
+                    <div className="card-img-wrap"><img src={HousePlaceholder} className="venue-images" alt="Venue" /></div>
+                    <div className="p-2">
+                        <h2 className="m-0 fs-3">Title</h2>
+                        <div className="d-flex justify-content-between mb-3">
                             <div>price,-</div>
-                            <div>
+                            <div className="d-flex align-items-center">
                                 <div>3</div>
-                                <img src={PersonIcon} alt="person icon" />
+                                <img src={PersonIcon} className="person-icon mt-1" alt="person icon" />
                             </div>
                         </div>
-                        <div>
-                            <img src={WifiIcon} alt="wifi icon"/>
-                            <img src={ParkingIcon} alt="parking icon"/>
-                            <img src={FoodIcon} alt="breakfast icon"/>
-                            <img src={PetsIcon} alt="pets icon"/>
+                        <div className="d-flex justify-content-end my-1 gap-1">
+                            <img src={WifiIcon} className="card-icons" alt="wifi icon"/>
+                            <img src={ParkingIcon} className="card-icons" alt="parking icon"/>
+                            <img src={FoodIcon} className="card-icons" alt="breakfast icon"/>
+                            <img src={PetsIcon} className="card-icons" alt="pets icon"/>
                         </div>
                     </div>
-                </div>
+                </VenueCard>
+                <VenueCard to="/">
+                    <div className="card-img-wrap"><img src={HousePlaceholder} className="venue-images" alt="Venue" /></div>
+                    <div className="p-2">
+                        <h2 className="m-0 fs-3">Title</h2>
+                        <div className="d-flex justify-content-between mb-3">
+                            <div>price,-</div>
+                            <div className="d-flex align-items-center">
+                                <div>3</div>
+                                <img src={PersonIcon} className="person-icon mt-1" alt="person icon" />
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-end my-1 gap-1">
+                            <img src={WifiIcon} className="card-icons" alt="wifi icon"/>
+                            <img src={ParkingIcon} className="card-icons" alt="parking icon"/>
+                            <img src={FoodIcon} className="card-icons" alt="breakfast icon"/>
+                            <img src={PetsIcon} className="card-icons" alt="pets icon"/>
+                        </div>
+                    </div>
+                </VenueCard>
+                <VenueCard to="/">
+                    <div className="card-img-wrap"><img src={HousePlaceholder} className="venue-images" alt="Venue" /></div>
+                    <div className="p-2">
+                        <h2 className="m-0 fs-3">Title</h2>
+                        <div className="d-flex justify-content-between mb-3">
+                            <div>price,-</div>
+                            <div className="d-flex align-items-center">
+                                <div>3</div>
+                                <img src={PersonIcon} className="person-icon mt-1" alt="person icon" />
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-end my-1 gap-1">
+                            <img src={WifiIcon} className="card-icons" alt="wifi icon"/>
+                            <img src={ParkingIcon} className="card-icons" alt="parking icon"/>
+                            <img src={FoodIcon} className="card-icons" alt="breakfast icon"/>
+                            <img src={PetsIcon} className="card-icons" alt="pets icon"/>
+                        </div>
+                    </div>
+                </VenueCard>
+                <VenueCard to="/">
+                    <div className="card-img-wrap"><img src={HousePlaceholder} className="venue-images" alt="Venue" /></div>
+                    <div className="p-2">
+                        <h2 className="m-0 fs-3">Title</h2>
+                        <div className="d-flex justify-content-between mb-3">
+                            <div>price,-</div>
+                            <div className="d-flex align-items-center">
+                                <div>3</div>
+                                <img src={PersonIcon} className="person-icon mt-1" alt="person icon" />
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-end my-1 gap-1">
+                            <img src={WifiIcon} className="card-icons" alt="wifi icon"/>
+                            <img src={ParkingIcon} className="card-icons" alt="parking icon"/>
+                            <img src={FoodIcon} className="card-icons" alt="breakfast icon"/>
+                            <img src={PetsIcon} className="card-icons" alt="pets icon"/>
+                        </div>
+                    </div>
+                </VenueCard>
             </div>
         </main>
     )
