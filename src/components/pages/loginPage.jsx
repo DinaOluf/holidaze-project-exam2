@@ -1,68 +1,60 @@
-// import { Button } from "../styles/buttons.styles";
+import { Button } from "../styles/buttons.styles";
+import { Input, Error } from "../styles/form.styles";
 import React, { useEffect } from "react";
-// import { useForm } from "react-hook-form";
-// import { yupResolver } from '@hookform/resolvers/yup';
-// import * as yup from 'yup';
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-// const schema = yup
-//   .object({
-//     fullName: yup
-//     .string()
-//     .min(3, 'Must contain more than 3 characters')
-//     .required('Please fill in this field')
-//     .typeError('Please write your full name here'),
-//     subject: yup
-//     .string()
-//     .min(3, 'Must contain more than 3 characters')
-//     .required('Please fill in this field')
-//     .typeError('Please write your subject here'),
-//     email: yup
-//       .string()
-//       .email('Please enter a valid email address')
-//       .required('Please enter a valid email address')
-//       .typeError('Please enter a valid email address'),
-//     body: yup
-//       .string()
-//       .min(3, 'Must contain more than 3 characters')
-//       .required('Please fill in this field')
-//       .typeError('Please write your message here'),
-//   })
-//   .required();
+const schema = yup
+  .object({
+    password: yup
+      .string()
+      .min(8, 'Must contain more than 8 characters')
+      .matches(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/, "Must contain at least one uppercase and lowercase letter, as well as a number")
+      .required('Please enter your password')
+      .typeError('Please enter your password'),
+    email: yup
+      .string()
+      .email('Please enter your e-mail')
+      .matches(/^[\w\-.]+@stud.?noroff.no$/, "Must be a student noroff e-mail (ending in @stud.noroff.no)")
+      .required('Please enter a valid email address')
+      .typeError('Please enter a valid email address')
+  })
+  .required();
 
 function LoginPage() {
   useEffect(() => {
     document.title = "Holidaze | Log in"
  }, []);
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmitHandler = (data) => {
+    console.log({ data });
+    reset();
+  };
  
     return (
-    <main className="container d-flex justify-content-center p-5">
-      <div className="col-8 row">
-        <h1 className='contact-heading'>
+    <main className="container d-flex justify-content-center align-items-center h-100">
+      <div className="col-10 col-lg-6 col-xl-5 mb-5">
+        <h1 className="mb-4">
           Log in
         </h1>
-        {/* <form onSubmit={handleSubmit(onSubmitHandler)}>
-          <div>
-            <label htmlFor='fullName'>Full Name</label>
-            <Input {...register("fullName")} />
-            <Error>{errors.fullName?.message}</Error>
-          </div>
-          <div>
-            <label htmlFor='subject'>Subject</label>
-            <Input {...register("subject")} />
-            <Error>{errors.subject?.message}</Error>
-          </div>
-          <div>
-            <label htmlFor='email'>E-mail</label>
+        <form className="d-flex flex-column gap-4" onSubmit={handleSubmit(onSubmitHandler)}>
+          <div className="d-flex flex-column">
+            <label className="fs-5" htmlFor='email'>E-mail</label>
             <Input {...register("email")} />
             <Error>{errors.email?.message}</Error>
           </div>
-          <div>
-            <label htmlFor='body'>Message</label>
-            <TextArea {...register("body")} />
-            <Error>{errors.body?.message}</Error>
+          <div className="d-flex flex-column">
+            <label className="fs-5" htmlFor='password'>Password</label>
+            <Input type="password" {...register("password")} />
+            <Error>{errors.password?.message}</Error>
           </div>
-          <Button className="contact-button" type="submit">Send</Button>
-        </form> */}
+          <Button className="align-self-center" type="submit">Log in</Button>
+        </form>
       </div>
     </main>);
   }
