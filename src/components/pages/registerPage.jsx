@@ -1,5 +1,5 @@
 import { Button } from "../styles/buttons.styles";
-import { Input, Error } from "../styles/form.styles";
+import { Input, Error, Radio } from "../styles/form.styles";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -65,13 +65,13 @@ function RegisterPage() {
             <Input type="password" {...register("retypePassword")} />
             <Error>{errors.retypePassword?.message}</Error>
           </div>
-          <div className="d-flex justify-content-center gap-5 mb-3">
+          <div className="d-flex justify-content-center gap-4 mb-3">
             <div>
-              <input type="radio" id="customer" name="userType" value="false" />
+              <Radio type="radio" id="customer" name="userType" value="false" />
               <label className="fs-5 ps-2" for="customer">Customer</label>
             </div>
             <div>
-              <input type="radio" id="manager" name="userType" value="true" />
+              <Radio type="radio" id="manager" name="userType" value="true" />
               <label className="fs-5 ps-2" for="manager">Venue Manager</label>
             </div>
           </div>

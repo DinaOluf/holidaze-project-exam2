@@ -16,4 +16,10 @@ const Error = styled.div`
     min-height: 1.2rem;
 `;
 
-export { Input, Error };
+const Radio = styled.input`
+    accent-color: #495B70;
+    transform: scale(1.32);
+    height: 1.2rem;
+`;
+
+export { Input, Error, Radio };
