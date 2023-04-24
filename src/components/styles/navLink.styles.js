@@ -11,7 +11,7 @@ export const NavLink = styled(Link)`
         text-decoration: underline;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 767px) {
         font-size: 1.1em;
     }
 `;
