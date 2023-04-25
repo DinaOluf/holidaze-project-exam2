@@ -1,11 +1,12 @@
 import { Button } from "../styles/buttons.styles";
 import { Input, Error, Radio } from "../styles/form.styles";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-// import useApi from "../useApi";
 import profileImage from "../../assets/images/profile-icon.png";
+import { RegisterProfileIcon } from "../styles/icons.styles";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup
   .object({
@@ -35,6 +36,10 @@ const schema = yup
   .required();
 
 function RegisterPage() {
+  const [ userInput, setUserInput ] = useState({});
+  const navigate = useNavigate();
+  let url = "https://api.noroff.dev/api/v1/holidaze/auth/register";
+
   useEffect(() => {
     document.title = "Holidaze | Register"
  }, []);
@@ -43,21 +48,59 @@ function RegisterPage() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandler = (data) => {
-    // const url = "/api/v1/holidaze/auth/register";
+  const onSubmitHandler = async (data) => {
+    await data;
+    
+    if(data.venueManager === "manager"){
+      setUserInput({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        avatar: null,
+        venueManager: true
+      });
+    } if (data.venueManager === "customer") {
+      setUserInput({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        avatar: null,
+        venueManager: false
+      });
+    }
 
-    console.log(data)
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userInput),
+      };
+      console.log(userInput);
+      const response = await fetch(url, options);
+      const json = await response.json();
+      console.log(json);
+      // setData(json);
+      if ( json.id ) {
+        navigate("/login");
+      } else {
+        console.log("Some error occured");
+      }
 
-    // useApi( url, "POST", userInput );
+    } catch (error) {
+      console.log(error);
+    }
+
     reset();
   };
 
     return (
-    <main className="container d-flex justify-content-center align-items-center h-100">
+    <main className="container d-flex justify-content-center align-items-center h-100 my-5">
       <div className="col-10 col-lg-6 col-xl-5 mb-5">
-        <div className="d-flex align-items-center">
-          <img className="" src={profileImage} alt="Profile icon"/>
-          <h1 className="mb-4">
+        <div className="d-flex align-items-center mb-2">
+          <RegisterProfileIcon src={profileImage} alt="Profile icon"/>
+          <h1 className="mb-0 mt-2 ms-2">
             Register
           </h1>
         </div>
