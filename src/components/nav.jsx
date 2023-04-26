@@ -1,11 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import holidazeLogo from "../assets/images/holidaze-logo.png";
 import { Logo } from './styles/logo.styles';
 import { NavLink } from './styles/navLink.styles';
+import { useEffect} from 'react';
 
 function Nav() {
     const token = localStorage.getItem("Token");
     const manager = localStorage.getItem("Manager");
+
+    const location = useLocation();
+    
+    useEffect(() => {
+    }, [location]);
 
     return (
         <nav className='row h-100 w-100 align-items-center py-3'>
