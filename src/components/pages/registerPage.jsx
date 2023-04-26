@@ -1,6 +1,6 @@
 import { Button } from "../styles/buttons.styles";
 import { Input, Error, Radio } from "../styles/form.styles";
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -31,14 +31,13 @@ const schema = yup
       .oneOf([yup.ref('password')], 'Your passwords do not match'),
     venueManager: yup
       .string()
-      .required("Choose what type of user you are"),
+      .required("Choose what type of user you are")
   })
   .required();
 
 function RegisterPage() {
-  const [ userInput, setUserInput ] = useState({});
   const navigate = useNavigate();
-  let url = "https://api.noroff.dev/api/v1/holidaze/auth/register";
+  const url = "https://api.noroff.dev/api/v1/holidaze/auth/register";
 
   useEffect(() => {
     document.title = "Holidaze | Register"
@@ -48,52 +47,56 @@ function RegisterPage() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandler = async (data) => {
-    await data;
-    
+  const onSubmitHandler = (data) => {
+    let newData = {};
+
     if(data.venueManager === "manager"){
-      setUserInput({
+      newData = {
         name: data.name,
         email: data.email,
         password: data.password,
         avatar: null,
         venueManager: true
-      });
+      };
     } if (data.venueManager === "customer") {
-      setUserInput({
+      newData = {
         name: data.name,
         email: data.email,
         password: data.password,
         avatar: null,
         venueManager: false
-      });
-    }
-
-    try {
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userInput),
       };
-      console.log(userInput);
-      const response = await fetch(url, options);
-      const json = await response.json();
-      console.log(json);
-      // setData(json);
-      if ( json.id ) {
-        navigate("/login");
-      } else {
-        console.log("Some error occured");
+    }
+    const postData = async (data) => {
+      const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+      };
+
+      try {
+        console.log(data); //remove
+        const response = await fetch(url, options);
+        const json = await response.json();
+        console.log(json); //remove
+        if ( json.id ) {
+          navigate("/login");
+        } else {
+          console.log("Some error occured");
+        }
+
+      } catch (error) {
+        console.log(error);
       }
 
-    } catch (error) {
-      console.log(error);
-    }
+      reset();
+    };
 
-    reset();
-  };
+  postData(newData);
+}
+   
 
     return (
     <main className="container d-flex justify-content-center align-items-center h-100 my-5">
