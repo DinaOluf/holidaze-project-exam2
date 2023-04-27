@@ -5,7 +5,7 @@ import Background from './components/background';
 import { HeaderBar } from './components/styles/header.styles';
 import { FooterBar } from './components/styles/footer.styles';
 import Nav from './components/nav';
-import Home from './components/pages/homePage';
+import Home from './components/pages';
 import LoginPage from './components/pages/loginPage';
 import RegisterPage from './components/pages/registerPage';
 import ProfilePage from './components/pages/profilePage';
@@ -52,7 +52,7 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="venue" element={<VenuePage />} />
+          <Route path="venue/:id" element={<VenuePage />} />
           <Route path="new-venue" element={<NewVenuePage />} />
           <Route path="booked-success" element={<BookedPage />} />
           <Route path="logout" element={<LogoutPage />} />
