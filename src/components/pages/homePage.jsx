@@ -9,16 +9,48 @@ import ParkingIcon from "../../assets/images/parking-icon.png";
 import FoodIcon from "../../assets/images/breakfast-icon.png";
 import PetsIcon from "../../assets/images/pets-icon.png";
 import HousePlaceholder from "../../assets/images/house-PLACEHOLDER.jpg";
+import useApi from "../useApi";
 
 function Home() {
     useEffect(() => {
         document.title = "Holidaze | Home"
      }, []);
 
+     const { data, isLoading, isError } = useApi(
+        'https://api.noroff.dev/api/v1/holidaze/venues',
+        'GET'
+      );
+  
+    if (isLoading) {
+      return <main id="container d-flex flex-column p-5">
+        <Hidden>
+            <h1>
+                Front page
+            </h1>
+        </Hidden>
+        <div className='loading' aria-label='loading'></div>
+    </main>;
+    }
+  
+    if (isError) {
+      return <main id='container d-flex flex-column p-5'>
+        <Hidden>
+            <h1>
+                Front page
+            </h1>
+        </Hidden>
+        <div className='error'>
+          Error! Please refresh.
+        </div>
+    </main>;
+    };
+
+    console.log(data); //remove
+
     return (
         <main className="container d-flex flex-column p-5">
             <Hidden>
-                <h1 className="make-this-accessibly-invisible">
+                <h1>
                     Front page
                 </h1>
             </Hidden>

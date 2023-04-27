@@ -10,10 +10,6 @@ function useApi(url, method, info) {
         try {
           setIsLoading(true);
           setIsError(false);
-          // const fetchedData = await fetch(url);
-          // const json = await fetchedData.json();
-          // console.log(json); //delete
-          // setData(json);
 
           const token = localStorage.getItem("accessToken");
 
