@@ -8,7 +8,7 @@ import WifiIcon from "../../assets/images/wifi-icon.png";
 import ParkingIcon from "../../assets/images/parking-icon.png";
 import FoodIcon from "../../assets/images/breakfast-icon.png";
 import PetsIcon from "../../assets/images/pets-icon.png";
-import HousePlaceholder from "../../assets/images/placeholder-image.png";
+import PlaceholderImg from "../../assets/images/placeholder-image.png";
 import useApi from "../useApi";
 import { Loader } from "../styles/loader.styles";
 
@@ -72,7 +72,7 @@ function Home() {
                 <VenueCard className="position-relative" key={data.id} to={`/venue/${data.id}`}>
                     <div className="card-img-wrap">
                         { data.media.length === 0
-                            ?  <img src={HousePlaceholder} className="venue-images" alt="Venue" />
+                            ?  <img src={PlaceholderImg} className="venue-images" alt="Venue" />
                             :  <img src={data.media[0]} className="venue-images" alt="Venue" /> 
                         }
                     </div>
