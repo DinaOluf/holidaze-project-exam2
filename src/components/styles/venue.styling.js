@@ -10,6 +10,22 @@ const VenueImgContainer = styled.div`
             max-width: 100%;
             max-height: 100%;
         }
+   
+    @media (max-width: 1399px) {
+        height: 26rem;
+    }
+        
+    @media (max-width: 1199px) {
+        height: 24rem;
+    }
+
+    @media (max-width: 991px) {
+        height: 20rem;
+    }
+        
+    @media (max-width: 767px) {
+        height: 15rem;
+    }
 `;
 
 const PersonIconStyle = styled.img`
@@ -45,11 +61,6 @@ const InputGuests = styled.div`
         max-height: 80%;
         height: 10rem;
     }
-
-    /* @media (max-width: 720px) {
-        width: 18rem;
-        height: 2.5rem;
-    } */
 `;
 
 const DateInput = styled.input`
@@ -65,4 +76,26 @@ const DateInput = styled.input`
     }
 `
 
-export { VenueImgContainer, PersonIconStyle, InputGuests, DateInput };
+const ServicesIcons = styled.img`
+    height: 5rem;
+
+    @media (max-width: 767px) {
+        height: 3.5rem;
+    }
+`
+
+const OwnerImg = styled.div`
+    height: 7rem;
+    width: 7rem;
+    border-radius: 50%;
+    overflow: hidden;
+
+        img {
+            object-fit: cover;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+`
+
+export { VenueImgContainer, PersonIconStyle, InputGuests, DateInput, ServicesIcons, OwnerImg };
