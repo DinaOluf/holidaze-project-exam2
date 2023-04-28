@@ -50,8 +50,9 @@ function LoginPage() {
         const json = await response.json();
         console.log(json); //remove
         if ( json.accessToken ) {
-          localStorage.setItem("Token", json.accessToken)
-          localStorage.setItem("Manager", json.venueManager)
+          localStorage.setItem("Token", json.accessToken);
+          localStorage.setItem("Name", json.name);
+          localStorage.setItem("Manager", json.venueManager);
           navigate("/");
         } else {
           console.log("Some error occured");
