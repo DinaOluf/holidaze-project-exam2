@@ -73,12 +73,12 @@ function LoginPage() {
         <form className="d-flex flex-column gap-4" onSubmit={handleSubmit(onSubmitHandler)}>
           <div className="d-flex flex-column">
             <label className="fs-5" htmlFor='email'>E-mail</label>
-            <Input {...register("email")} />
+            <Input id="email" {...register("email")} />
             <Error>{errors.email?.message}</Error>
           </div>
           <div className="d-flex flex-column">
             <label className="fs-5" htmlFor='password'>Password</label>
-            <Input type="password" {...register("password")} />
+            <Input id="password" type="password" {...register("password")} />
             <Error>{errors.password?.message}</Error>
           </div>
           <Button className="align-self-center" type="submit">Log in</Button>
