@@ -11,7 +11,7 @@ function useApi(url, method, info) {
           setIsLoading(true);
           setIsError(false);
 
-          const token = localStorage.getItem("accessToken");
+          const token = localStorage.getItem("Token");
 
           const options = {
             method: method,
