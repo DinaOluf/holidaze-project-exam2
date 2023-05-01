@@ -55,6 +55,7 @@ function Home() {
     };
 
     console.log(data); //remove
+    
 
     return (
         <main className="container d-flex flex-column p-5">
@@ -71,9 +72,11 @@ function Home() {
                 {data.map((data) => (
                 <VenueCard className="position-relative" key={data.id} to={`/venue/${data.id}`}>
                     <div className="card-img-wrap">
-                        { data.media.length === 0
+                    {/* || (data.media.length !== 0 && !data.media[0].includes(".jpg" | ".jpeg" | ".png" | ".svg" | ".gif")) */}
+                        { data.media.length === 0 
                             ?  <img src={PlaceholderImg} className="venue-images" alt="Venue" />
-                            :  <img src={data.media[0]} className="venue-images" alt="Venue" /> 
+                            :  <img src={data.media[0]} className="venue-images" alt="Venue" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImg; } }} /> 
                         }
                     </div>
                     <div className="p-2 h-50">

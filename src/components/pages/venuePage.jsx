@@ -69,7 +69,8 @@ function VenuePage() {
             <div className="carousel-inner">
               { data.media && data.media.length >= 1
                 ? <VenueImgContainer className="carousel-item active">
-                    <img src={data.media[0]} className="d-block w-100" alt="accommodation" />
+                    <img src={data.media[0]} className="d-block w-100" alt="accommodation" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
                   </VenueImgContainer>
                 : <VenueImgContainer className="carousel-item">
                 <img src={PlaceholderImg} className="d-block w-100" alt="accommodation" />
@@ -77,25 +78,29 @@ function VenuePage() {
               }
               { data.media && data.media.length >= 2
                 ? <VenueImgContainer className="carousel-item">
-                    <img src={data.media[1]} className="d-block w-100" alt="accommodation" />
+                    <img src={data.media[1]} className="d-block w-100" alt="accommodation" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
                   </VenueImgContainer>
                 : ""
               }
               { data.media && data.media.length >= 3
                 ? <VenueImgContainer className="carousel-item">
-                    <img src={data.media[2]} className="d-block w-100" alt="accommodation" />
+                    <img src={data.media[2]} className="d-block w-100" alt="accommodation" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
                   </VenueImgContainer>
                 : ""
               }
               { data.media && data.media.length >= 4
                 ? <VenueImgContainer className="carousel-item">
-                    <img src={data.media[3]} className="d-block w-100" alt="accommodation" />
+                    <img src={data.media[3]} className="d-block w-100" alt="accommodation" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
                   </VenueImgContainer>
                 : ""
               }
               { data.media && data.media.length >= 5
                 ? <VenueImgContainer className="carousel-item">
-                    <img src={data.media[4]} className="d-block w-100" alt="accommodation" />
+                    <img src={data.media[4]} className="d-block w-100" alt="accommodation" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
                   </VenueImgContainer>
                 : ""
               }
@@ -178,7 +183,8 @@ function VenuePage() {
               <div className='d-flex align-items-center my-4'>
                 { data.owner && data.owner.avatar
                     ?  <OwnerImg>
-                          <img src={data.owner.avatar} className="venue-images" alt="Venue" />
+                          <img src={data.owner.avatar} className="venue-images" alt="Venue" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
                       </OwnerImg>
                     : <OwnerImg>
                         <img src={ProfileImg} className="venue-images" alt="Venue" />
