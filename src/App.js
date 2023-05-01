@@ -51,7 +51,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile/:name" element={<ProfilePage />} />
           <Route path="venue/:id" element={<VenuePage />} />
           <Route path="new-venue" element={<NewVenuePage />} />
           <Route path="booked-success" element={<BookedPage />} />

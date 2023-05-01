@@ -17,7 +17,7 @@ function Home() {
         document.title = "Holidaze | Home"
      }, []);
 
-     const cut = (line) => {
+     const cut20 = (line) => {
         return line.slice(0, 20) + "...";
      }
 
@@ -72,7 +72,6 @@ function Home() {
                 {data.map((data) => (
                 <VenueCard className="position-relative" key={data.id} to={`/venue/${data.id}`}>
                     <div className="card-img-wrap">
-                    {/* || (data.media.length !== 0 && !data.media[0].includes(".jpg" | ".jpeg" | ".png" | ".svg" | ".gif")) */}
                         { data.media.length === 0 
                             ?  <img src={PlaceholderImg} className="venue-images" alt="Venue" />
                             :  <img src={data.media[0]} className="venue-images" alt="Venue" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
@@ -81,10 +80,9 @@ function Home() {
                     </div>
                     <div className="p-2 h-50">
                         { data.name.length >= 20 
-                            ? <h2 className="m-0 fs-4">{cut(data.name)}</h2>
+                            ? <h2 className="m-0 fs-4">{cut20(data.name)}</h2>
                             : <h2 className="m-0 fs-4">{data.name}</h2>
                         }
-                        {/* <h2 className="m-0 fs-4">{data.name}</h2> */}
                         <div className="d-flex justify-content-between mb-3">
                             <div>{data.price},-</div>
                             <div className="d-flex align-items-center">

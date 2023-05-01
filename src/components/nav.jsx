@@ -7,6 +7,7 @@ import { useEffect} from 'react';
 function Nav() {
     const token = localStorage.getItem("Token");
     const manager = localStorage.getItem("Manager");
+    const name = localStorage.getItem("Name");
 
     const location = useLocation();
     
@@ -40,7 +41,7 @@ function Nav() {
                 { token && manager === "false"
                     ? <ul className='row mb-0 list-style-type-none list-unstyled justify-content-end'>
                         <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0'>
-                            <NavLink to='Profile'>
+                            <NavLink to={`/Profile/${name}`}>
                                 Profile
                             </NavLink>
                         </li>
@@ -61,7 +62,7 @@ function Nav() {
                             </NavLink>
                         </li>
                         <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0'>
-                            <NavLink to='Profile'>
+                            <NavLink to={`/profile/${name}`} >
                                 Profile
                             </NavLink>
                         </li>
