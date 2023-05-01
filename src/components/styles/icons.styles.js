@@ -1,6 +1,22 @@
 import styled from "styled-components";
 
-export const RegisterProfileIcon = styled.img`
+const RegisterProfileIcon = styled.img`
     width: 4rem;
     height: 4rem;
 `;
+
+const ProfileImgStyle = styled.div`
+    height: 7rem;
+    width: 7rem;
+    border-radius: 50%;
+    overflow: hidden;
+
+        img {
+            object-fit: cover;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+`
+
+export { RegisterProfileIcon, ProfileImgStyle };

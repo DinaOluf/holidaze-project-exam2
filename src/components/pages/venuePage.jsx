@@ -9,7 +9,8 @@ import ParkingIcon from "../../assets/images/parking-icon.png";
 import FoodIcon from "../../assets/images/breakfast-icon.png";
 import PetsIcon from "../../assets/images/pets-icon.png";
 import ProfileImg from "../../assets/images/profile-icon.png";
-import { DateInput, InputGuests, PersonIconStyle, VenueImgContainer, ServicesIcons, OwnerImg } from '../styles/venue.styling';
+import { DateInput, InputGuests, PersonIconStyle, VenueImgContainer, ServicesIcons } from '../styles/venue.styling';
+import { ProfileImgStyle } from '../styles/icons.styles';
 import { Button } from '../styles/buttons.styles';
 import { formatDate } from '../timeDate';
 
@@ -17,7 +18,7 @@ function VenuePage() {
   let params = useParams();
 
   const { data, isLoading, isError } = useApi(
-    'https://api.noroff.dev/api/v1/holidaze/venues/'+params.id+'?_owner=true&bookings=true',
+    'https://api.noroff.dev/api/v1/holidaze/venues/'+params.id+'?_owner=true&_bookings=true',
     'GET'
   );
 
@@ -182,13 +183,13 @@ function VenuePage() {
               <h2 className='border-bottom border-dark w-100 mt-4'>Owner</h2>
               <div className='d-flex align-items-center my-4'>
                 { data.owner && data.owner.avatar
-                    ?  <OwnerImg>
+                    ?  <ProfileImgStyle>
                           <img src={data.owner.avatar} className="venue-images" alt="Venue" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
                             { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
-                      </OwnerImg>
-                    : <OwnerImg>
+                      </ProfileImgStyle>
+                    : <ProfileImgStyle>
                         <img src={ProfileImg} className="venue-images" alt="Venue" />
-                      </OwnerImg>
+                      </ProfileImgStyle>
                 }
                 { data.owner 
                     ? <div className='ms-3'>

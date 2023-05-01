@@ -84,18 +84,4 @@ const ServicesIcons = styled.img`
     }
 `
 
-const OwnerImg = styled.div`
-    height: 7rem;
-    width: 7rem;
-    border-radius: 50%;
-    overflow: hidden;
-
-        img {
-            object-fit: cover;
-            min-height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-        }
-`
-
-export { VenueImgContainer, PersonIconStyle, InputGuests, DateInput, ServicesIcons, OwnerImg };
+export { VenueImgContainer, PersonIconStyle, InputGuests, DateInput, ServicesIcons };
