@@ -27,9 +27,9 @@ const schema = yup
       .string()
       .required('Please choose a date'),
     numberGuests: yup
-      .number("Please write a number")
+      .number()
       .required('Please choose a date')
-      .min(1, "Must be at least one guest")
+      .min(1, "Must be at least 1")
   })
   .required();
 
@@ -38,6 +38,7 @@ function VenuePage() {
   const navigate = useNavigate();
   const date = new Date().toISOString().slice(0, 10);
   const [ arrivalDate, setArrivalDate] = useState(date);
+  const [ guests, setGuests] = useState(0);
 
 
   const { data, isLoading, isError } = useApi(
@@ -205,7 +206,7 @@ const onSubmitHandler = async (e) => {
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='numberGuests'>Guest(s)</label>
                   <InputGuests className='d-flex'>
-                    <input id='numberGuests' {...register("numberGuests")} className='text-end' type='number'></input>
+                    <input id='numberGuests' {...register("numberGuests")} className='text-end' type='number' onChange={e => setGuests(e.target.value)} value={guests}></input>
                     <img src={PersonIcon} alt='Person icon' />
                   </InputGuests>
                   <Error>{errors.numberGuests?.message}</Error>
