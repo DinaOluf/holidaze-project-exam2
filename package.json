@@ -4,7 +4,6 @@
   "private": true,
   "description": "An accommodation website",
   "main": "App.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DinaOluf/holidaze-project-exam2.git"
@@ -29,6 +28,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
     "react": "^18.2.0",
+    "react-confirm-alert": "^3.0.6",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-router-dom": "^6.10.0",

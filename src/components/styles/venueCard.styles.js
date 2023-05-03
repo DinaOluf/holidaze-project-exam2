@@ -8,6 +8,7 @@ export const VenueCard = styled(Link)`
     text-decoration: none;
     width: 16rem;
     font-size: 1.1rem;
+    filter: drop-shadow(1px 1px 2px grey);
 
     :hover {
         transform: scale(1.02);

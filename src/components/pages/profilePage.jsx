@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import { ProfileImgStyle } from "../styles/icons.styles";
 import PlaceholderImage from "../../assets/images/profile-icon.png";
 import useApi from "../useApi";
@@ -11,35 +11,17 @@ import ParkingIcon from "../../assets/images/parking-icon.png";
 import FoodIcon from "../../assets/images/breakfast-icon.png";
 import PetsIcon from "../../assets/images/pets-icon.png";
 import PlaceholderImg from "../../assets/images/placeholder-image.png";
-import { DateInput, InputGuests } from '../styles/venue.styling';
-import { Button, Button2 } from '../styles/buttons.styles';
-// import { formatDate } from '../timeDate';
-import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { Error } from '../styles/form.styles';
-
-const schema = yup
-  .object({
-    dateArrival: yup
-      .string()
-      .required('Please choose a date'),
-    dateDeparture: yup
-      .string()
-      .required('Please choose a date'),
-    numberGuests: yup
-      .number("Please write a number")
-      .required('Please choose a date')
-      .min(1, "Must be at least one guest")
-  })
-  .required();
+import { PersonIconStyle } from '../styles/venue.styling';
+import { ButtonSmaller, ButtonSmaller2 } from '../styles/buttons.styles';
+import { ContainerCard } from "../styles/containerCard.styles";
+import { confirmAlert } from "react-confirm-alert";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 function ProfilePage() {
   let params = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const userName = localStorage.getItem("Name");
   const date = new Date().toISOString().slice(0, 10);
-  const [ arrivalDate, setArrivalDate] = useState(date);
 
   useEffect(() => {
       document.title = "Holidaze | Profile | "+params.name;
@@ -54,45 +36,41 @@ function ProfilePage() {
     'GET'
   );
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const onClickConfirm = async (e) => {
+    confirmAlert({
+      title: 'Cancel order',
+      message: 'Are you sure you want to cancel your order?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => onSubmitHandler(e)
+        },
+        {
+          label: 'No',
+        }
+      ]
+    });
+  }
 
-  const onSubmitHandler = async (e) => {
-    const url = "https://api.noroff.dev/api/v1/holidaze/bookings"
+  const onSubmitHandler = async (id) => {
+    const url = "https://api.noroff.dev/api/v1/holidaze/bookings/"+id;
     const token = localStorage.getItem("Token");
   
-    let newData = {
-      dateFrom: e.dateArrival,
-      dateTo: e.dateDeparture,
-      guests: e.numberGuests,
-      venueId: data.id,
-    };
-  
     const options = {
-        // method: "POST", PUT and DELETE depending on button
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(newData),
     };
   
     try {
-      const response = await fetch(url, options);
-      const json = await response.json();
-      console.log(json); //remove
-      if ( json.id ) {
-        navigate("/booked-success");
-      } else {
-        console.log("Some error occured");
-      }
+      await fetch(url, options);
+      window.location.reload();
   
     } catch (error) {
       console.log(error);
     }
-  
-    reset();
   };
 
   if (isLoading) {
@@ -113,9 +91,10 @@ function ProfilePage() {
   </main>;
   }
 
+
   return <main id="container p-5">
     <div className="d-flex justify-content-center mt-5">
-      <div className='col-11 col-sm-9 col-xl-7 rounded-5 overflow-hidden p-4 bg-warning'>
+      <ContainerCard className='col-11 col-sm-9 col-xl-7 rounded-5'>
         <div className="d-flex align-items-center">
           <ProfileImgStyle className="me-2">
             <img src={PlaceholderImage} alt="Personal profile" />
@@ -129,73 +108,100 @@ function ProfilePage() {
         <h2>Your Bookings</h2>
         {data.bookings
         ? data.bookings.map((data) => (
-          <div className="d-flex" key={data.venue.id}>
-            <VenueCard className="position-relative" to={`/venue/${data.venue.id}`}>
-                <div className="card-img-wrap">
-                    { data.venue.media.length === 0 
-                        ?  <img src={PlaceholderImg} className="venue-images" alt="Venue" />
-                        :  <img src={data.venue.media[0]} className="venue-images" alt="Venue" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
-                        { e.target.onerror = null; e.target.src=PlaceholderImg; } }} /> 
-                    }
-                </div>
-                <div className="p-2 h-50">
-                    { data.venue.name.length >= 20 
-                        ? <h2 className="m-0 fs-4">{cut20(data.venue.name)}</h2>
-                        : <h2 className="m-0 fs-4">{data.venue.name}</h2>
-                    }
-                    <div className="d-flex justify-content-between mb-3">
-                        <div>{data.venue.price},-</div>
-                        <div className="d-flex align-items-center">
-                            <div>{data.venue.maxGuests}</div>
-                            <img src={PersonIcon} className="person-icon mt-1" alt="person icon" />
+          <div key={data.venue.id}>
+            { data.dateFrom > date
+                  ? <div className="d-flex flex-wrap mt-5">
+                  <VenueCard className="position-relative" to={`/venue/${data.venue.id}`}>
+                  <div className="card-img-wrap">
+                      { data.venue.media.length === 0 
+                          ?  <img src={PlaceholderImg} className="venue-images" alt="Venue" />
+                          :  <img src={data.venue.media[0]} className="venue-images" alt="Venue" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                          { e.target.onerror = null; e.target.src=PlaceholderImg; } }} /> 
+                      }
+                  </div>
+                  <div className="p-2 h-50">
+                      { data.venue.name.length >= 20 
+                          ? <h2 className="m-0 fs-4">{cut20(data.venue.name)}</h2>
+                          : <h2 className="m-0 fs-4">{data.venue.name}</h2>
+                      }
+                      <div className="d-flex justify-content-between mb-3">
+                          <div>{data.venue.price},-</div>
+                          <div className="d-flex align-items-center">
+                              <div>{data.venue.maxGuests}</div>
+                              <img src={PersonIcon} className="person-icon mt-1" alt="person icon" />
+                          </div>
+                      </div>
+                      <div className="d-flex justify-content-end my-1 gap-1">
+                          { data.venue.meta.wifi 
+                              ? <img src={WifiIcon} className="card-icons" alt="wifi icon"/> 
+                              : "" }
+                          { data.venue.meta.parking 
+                              ? <img src={ParkingIcon} className="card-icons" alt="parking icon"/> 
+                              : "" }
+                          { data.venue.meta.breakfast 
+                              ? <img src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
+                              : "" }
+                          { data.venue.meta.parking 
+                              ? <img src={PetsIcon} className="card-icons" alt="pets icon"/>
+                              : "" }
+                      </div>
+                  </div>
+              </VenueCard>
+              { new Date().toISOString() <= data.dateFrom
+                ? <>
+                    <div className='d-flex flex-column justify-content-between flex-wrap ms-2'>
+                      <div className='d-flex flex-column fs-5'>
+                        <label htmlFor={`dateArrival-${data.id}`}>Date of arrival</label>
+                        <div id={`dateArrival-${data.id}`}>{data.dateFrom.slice(0, 10)}</div>
+                      </div>
+                      <div className='d-flex flex-column fs-5'>
+                        <label htmlFor={`dateDeparture-${data.id}`}>Date of departure</label>
+                        <div id={`dateDeparture-${data.id}`}>{data.dateTo.slice(0, 10)}</div>
+                      </div>
+                      <div className='d-flex flex-column fs-5'>
+                        <label htmlFor={`numberGuests-${data.id}`}>Guest(s)</label>
+                        <div className='d-flex'>
+                          <div id={`numberGuests-${data.id}`} className='text-end'>{data.guests}</div>
+                          <PersonIconStyle src={PersonIcon} alt='Person icon' />
                         </div>
+                      </div>
+                      <div className="d-flex flex-wrap gap-2">
+                        <ButtonSmaller2 onClick={() => onClickConfirm(data.id)}>Cancel</ButtonSmaller2>
+                        <ButtonSmaller to={`/booking/${data.id}`}>Edit</ButtonSmaller>
+                      </div>
                     </div>
-                    <div className="d-flex justify-content-end my-1 gap-1">
-                        { data.venue.meta.wifi 
-                            ? <img src={WifiIcon} className="card-icons" alt="wifi icon"/> 
-                            : "" }
-                        { data.venue.meta.parking 
-                            ? <img src={ParkingIcon} className="card-icons" alt="parking icon"/> 
-                            : "" }
-                        { data.venue.meta.breakfast 
-                            ? <img src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
-                            : "" }
-                        { data.venue.meta.parking 
-                            ? <img src={PetsIcon} className="card-icons" alt="pets icon"/>
-                            : "" }
+                  </>
+                : <>
+                    <div className='d-flex flex-column justify-content-between flex-wrap ms-2'>
+                      <div className='d-flex flex-column fs-5'>
+                        <label htmlFor={`dateArrival-${data.id}`}>Date of arrival</label>
+                        <div id={`dateArrival-${data.id}`}>{data.dateFrom.slice(0, 10)}</div>
+                      </div>
+                      <div className='d-flex flex-column fs-5'>
+                        <label htmlFor={`dateDeparture-${data.id}`}>Date of departure</label>
+                        <div id={`dateDeparture-${data.id}`}>{data.dateTo.slice(0, 10)}</div>
+                      </div>
+                      <div className='d-flex flex-column fs-5'>
+                        <label htmlFor={`numberGuests-${data.id}`}>Guest(s)</label>
+                        <div className='d-flex'>
+                          <div id={`numberGuests-${data.id}`} className='text-end'>{data.guests}</div>
+                          <PersonIconStyle src={PersonIcon} alt='Person icon' />
+                        </div>
+                      </div>
+                      <div className="d-flex flex-wrap gap-2">
+                      </div>
                     </div>
-                </div>
-            </VenueCard>
-            <div>
-              <form className='d-flex flex-column justify-content-between flex-wrap ms-2' onSubmit={handleSubmit(onSubmitHandler)}>
-                <div className='d-flex flex-column fs-5'>
-                  <label htmlFor='dateArrival'>Date of arrival</label>
-                  <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput>
-                  <Error>{errors.dateArrival?.message}</Error>
-                </div>
-                <div className='d-flex flex-column fs-5'>
-                  <label htmlFor='dateDeparture'>Date of departure</label>
-                  <DateInput id='dateDeparture' {...register("dateDeparture")} type='date' min={arrivalDate}></DateInput>
-                  <Error>{errors.dateDeparture?.message}</Error>
-                </div>
-                <div className='d-flex flex-column fs-5'>
-                  <label htmlFor='numberGuests'>Guest(s)</label>
-                  <InputGuests className='d-flex'>
-                    <input id='numberGuests' {...register("numberGuests")} className='text-end' type='number' onChange={e => (e.target.value = e.value)} value={data.guests}></input>
-                    <img src={PersonIcon} alt='Person icon' />
-                  </InputGuests>
-                  <Error>{errors.numberGuests?.message}</Error>
-                </div>
-                <Button2>Delete</Button2>
-                <Button>Book</Button>
-              </form>
+                  </>
+              }
             </div>
+            : ""
+          }
           </div>
         ))
         : ""}
-      </div>
+      </ContainerCard>
     </div>
 </main>;
 }
 
-  export default ProfilePage;
+export default ProfilePage;

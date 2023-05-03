@@ -17,6 +17,11 @@ const ProfileImgStyle = styled.div`
             max-width: 100%;
             max-height: 100%;
         }
+
+    @media (max-width: 575px) {
+        height: 5rem;
+        width: 5rem;
+    }
 `
 
 export { RegisterProfileIcon, ProfileImgStyle };
