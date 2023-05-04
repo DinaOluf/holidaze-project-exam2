@@ -206,7 +206,7 @@ const onSubmitHandler = async (e) => {
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='numberGuests'>Guest(s)</label>
                   <InputGuests className='d-flex'>
-                    <input id='numberGuests' {...register("numberGuests")} className='text-end' type='number' onChange={e => setGuests(e.target.value)} value={guests}></input>
+                    <input id='numberGuests' {...register("numberGuests")} className='text-end' min={0} type='number' onChange={e => setGuests(e.target.value)} value={guests}></input>
                     <img src={PersonIcon} alt='Person icon' />
                   </InputGuests>
                   <Error>{errors.numberGuests?.message}</Error>

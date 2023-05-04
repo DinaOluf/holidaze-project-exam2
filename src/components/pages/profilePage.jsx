@@ -38,7 +38,7 @@ function ProfilePage() {
 
   const onClickConfirm = async (e) => {
     confirmAlert({
-      title: 'Cancel order',
+      title: 'Cancel booking',
       message: 'Are you sure you want to cancel your order?',
       buttons: [
         {
@@ -105,13 +105,13 @@ function ProfilePage() {
           </div>
         </div>
         <hr />
-        <h2>Your Bookings</h2>
+        <h2>Upcoming Bookings</h2>
         {data.bookings
         ? data.bookings.map((data) => (
           <div key={data.venue.id}>
             { data.dateFrom > date
                   ? <div className="d-flex flex-wrap mt-5">
-                  <VenueCard className="position-relative" to={`/venue/${data.venue.id}`}>
+                  <VenueCard className="position-relative" title="Takes you to the venue page" to={`/venue/${data.venue.id}`}>
                   <div className="card-img-wrap">
                       { data.venue.media.length === 0 
                           ?  <img src={PlaceholderImg} className="venue-images" alt="Venue" />
@@ -167,7 +167,7 @@ function ProfilePage() {
                       </div>
                       <div className="d-flex flex-wrap gap-2">
                         <ButtonSmaller2 onClick={() => onClickConfirm(data.id)}>Cancel</ButtonSmaller2>
-                        <ButtonSmaller to={`/booking/${data.id}`}>Edit</ButtonSmaller>
+                        <ButtonSmaller title="Edit this booking" to={`/booking/${data.id}`}>Edit</ButtonSmaller>
                       </div>
                     </div>
                   </>
