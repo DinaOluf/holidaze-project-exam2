@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { ProfileImgStyle } from "../styles/icons.styles";
 import PlaceholderImage from "../../assets/images/profile-icon.png";
@@ -11,18 +11,21 @@ import ParkingIcon from "../../assets/images/parking-icon.png";
 import FoodIcon from "../../assets/images/breakfast-icon.png";
 import PetsIcon from "../../assets/images/pets-icon.png";
 import PlaceholderImg from "../../assets/images/placeholder-image.png";
+import editIcon from "../../assets/images/options-icon.png";
 import { PersonIconStyle } from '../styles/venue.styling';
 import { ButtonSmaller, ButtonSmaller2 } from '../styles/buttons.styles';
 import { ContainerCard } from "../styles/containerCard.styles";
 import { confirmAlert } from "react-confirm-alert";
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { Error } from "../styles/form.styles";
+import { Error, Input } from "../styles/form.styles";
+import { Links } from "../styles/links.style";
 
 function ProfilePage() {
   let params = useParams();
   // const navigate = useNavigate();
-  // const userName = localStorage.getItem("Name");
+  const userName = localStorage.getItem("Name");
   // const date = new Date().toISOString().slice(0, 10);
+  const [ imgUrl, setImgUrl] = useState(PlaceholderImage);
 
   useEffect(() => {
       document.title = "Holidaze | Profile | "+params.name;
@@ -97,9 +100,40 @@ function ProfilePage() {
     <div className="d-flex justify-content-center mt-5">
       <ContainerCard className='col-11 col-sm-9 col-xl-7 rounded-5'>
         <div className="d-flex align-items-center">
-          <ProfileImgStyle className="me-2">
-            <img src={PlaceholderImage} alt="Personal profile" />
-          </ProfileImgStyle>
+          <div className=" position-relative">
+            <ProfileImgStyle className="me-2">
+              <img src={PlaceholderImage} alt="Personal profile" />
+            </ProfileImgStyle>
+          { userName === params.name 
+            ? <>
+              <img src={editIcon} id="editIcon" height="28px" width="28px" className="position-absolute bottom-0 start-0" alt="edit profile-icon" data-bs-toggle="modal" data-bs-target="#imgModal"/>
+                <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-3" id="imgModalLabel">Edit Profile Image</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body row gap-1 align-items-center p-4">
+                        <ProfileImgStyle className="p-0">
+                          <img src={imgUrl} alt="Personal profile" />
+                        </ProfileImgStyle>
+                        <div className="col">
+                          <label className="fs-5" htmlFor='editImg'>Direct Image Link (generate on <Links to="https://postimages.org/">postimages.org</Links>)</label>
+                          <Input id="editImg" className="w-100" type="url" pattern=".*\.(jpg|jpeg|png|svg)$" title="Direct Link to an Image (e.g. link ending with .jpg)"></Input>
+                          {/* <Error>{errorMessage}</Error> */}
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <ButtonSmaller2 type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</ButtonSmaller2>
+                        <ButtonSmaller type="button" class="btn btn-primary">Save</ButtonSmaller>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </>
+            : ""}
+          </div>
           <div>
             <h1 className="mb-0">{data.name}</h1>
             <div>{data.email}</div>
@@ -260,7 +294,7 @@ function ProfilePage() {
                   </div>
                 </div>
                 <div className="d-flex mb-3 flex-wrap gap-2">
-                  <Error title="If your booking is in less than 24 hours you cannot change your booking.">Unable to edit due to 24hr restriction.</Error>
+                  <Error title="If your booking is in less than 24 hours you cannot change your booking.">This booking is archived.</Error>
                 </div>
               </div>
             </div>
