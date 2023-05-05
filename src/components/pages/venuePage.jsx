@@ -38,13 +38,25 @@ function VenuePage() {
   const navigate = useNavigate();
   const date = new Date().toISOString().slice(0, 10);
   const [ arrivalDate, setArrivalDate] = useState(date);
-  const [ guests, setGuests] = useState(0);
 
 
   const { data, isLoading, isError } = useApi(
     'https://api.noroff.dev/api/v1/holidaze/venues/'+params.id+'?_owner=true&_bookings=true',
     'GET'
   );
+
+//   var getDaysArray = function(bookings) {
+//     let arr = [];
+//     for (let i = 0; i < bookings.length; i++) {
+//       for(let dt=new Date(bookings[i].dateFrom); dt<=new Date(bookings[i].dateTo); dt.setDate(dt.getDate()+1)){
+//         arr.push(new Date(dt).toISOString().slice(0, 10));
+//       }
+//     } 
+//     console.log(arr) //remove
+//     return arr;   
+// };
+
+// excludeDates={getDaysArray(data.bookings)}
 
   useEffect(() => {
     document.title = `Holidaze | Venue | ${data.name}`; 
@@ -193,7 +205,9 @@ const onSubmitHandler = async (e) => {
               <div className='col d-flex justify-content-evenly'>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateArrival'>Date of arrival</label>
-                  <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput>
+                  {data.bookings && data.bookings[0].dateFrom && data.bookings[0].dateTo
+                  ? <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput>
+                  : <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput> }
                   <Error>{errors.dateArrival?.message}</Error>
                 </div>
                 <div className='d-flex flex-column fs-5'>
@@ -206,7 +220,7 @@ const onSubmitHandler = async (e) => {
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='numberGuests'>Guest(s)</label>
                   <InputGuests className='d-flex'>
-                    <input id='numberGuests' {...register("numberGuests")} className='text-end' min={0} type='number' onChange={e => setGuests(e.target.value)} value={guests}></input>
+                    <input id='numberGuests' {...register("numberGuests")} className='text-end' min={0} max={data.maxGuests} type='number' defaultValue={0}></input>
                     <img src={PersonIcon} alt='Person icon' />
                   </InputGuests>
                   <Error>{errors.numberGuests?.message}</Error>
