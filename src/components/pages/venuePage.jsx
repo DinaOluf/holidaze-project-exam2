@@ -45,6 +45,8 @@ function VenuePage() {
     'GET'
   );
 
+  let bookings = data.bookings;
+
 //   var getDaysArray = function(bookings) {
 //     let arr = [];
 //     for (let i = 0; i < bookings.length; i++) {
@@ -205,7 +207,8 @@ const onSubmitHandler = async (e) => {
               <div className='col d-flex justify-content-evenly'>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateArrival'>Date of arrival</label>
-                  {data.bookings && data.bookings[0].dateFrom && data.bookings[0].dateTo
+                  {/* data.bookings && data.bookings[0].dateFrom && data.bookings[0].dateTo */} 
+                  { bookings 
                   ? <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput>
                   : <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput> }
                   <Error>{errors.dateArrival?.message}</Error>
