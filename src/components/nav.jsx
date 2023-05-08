@@ -1,18 +1,24 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import holidazeLogo from "../assets/images/holidaze-logo.png";
 import { Logo } from './styles/logo.styles';
-import { NavLink } from './styles/navLink.styles';
+import { NavLink, NavLinkDiv } from './styles/navLink.styles';
 import { useEffect} from 'react';
 
 function Nav() {
     const token = localStorage.getItem("Token");
     const manager = localStorage.getItem("Manager");
     const name = localStorage.getItem("Name");
+    const navigate = useNavigate();
 
     const location = useLocation();
     
     useEffect(() => {
     }, [location]);
+
+    function handleLogout(){
+        localStorage.clear();
+        navigate("/logout");
+    }
 
     return (
         <nav className='row h-100 w-100 align-items-center py-3'>
@@ -47,9 +53,9 @@ function Nav() {
                         </li>
                         <li className='col-3 col-sm-2 px-0'>
                             {/* Remember to make event listener for logout - should not be a link */}
-                            <NavLink to='Logout'> 
+                            <NavLinkDiv onClick={() => handleLogout()}> 
                                 Log out
-                            </NavLink>
+                            </NavLinkDiv>
                         </li>
                     </ul>
                         : ""
@@ -68,9 +74,9 @@ function Nav() {
                         </li>
                         <li className='col-3 col-sm-2 px-0'>
                             {/* Remember to make event listener for logout - should not be a link */}
-                            <NavLink to='Logout'> 
+                            <NavLinkDiv onClick={() => handleLogout()}> 
                                 Log out
-                            </NavLink>
+                            </NavLinkDiv>
                         </li>
                     </ul>
                         : ""
