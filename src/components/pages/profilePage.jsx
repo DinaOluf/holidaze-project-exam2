@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
-import { ProfileImgStyle } from "../styles/icons.styles";
+import { ProfileImgStyle, EditIconStyle } from "../styles/icons.styles";
 import PlaceholderImage from "../../assets/images/profile-icon.png";
 import useApi from "../useApi";
 import { Loader } from "../styles/loader.styles";
@@ -19,6 +19,18 @@ import { confirmAlert } from "react-confirm-alert";
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Error, Input } from "../styles/form.styles";
 import { Links } from "../styles/links.style";
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup
+  .object({
+    avatar: yup
+      .string()
+      .required('Please paste your direct image link')
+      .matches(/(http)?s?:?(\/\/[^"']*\.(?:jpg|jpeg|gif|png|svg))/, "Please paste your direct image link (ends with .jpg/.jpeg/.gif/.png/.svg)")
+  })
+  .required();
 
 function ProfilePage() {
   let params = useParams();
@@ -35,10 +47,58 @@ function ProfilePage() {
   return line.slice(0, 20) + "...";
 }
 
+function setNewImage(value) {
+  if(value.match(/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/)) {
+    setImgUrl(value);
+  }
+}
+
+const { register, handleSubmit, formState: { errors }, reset } = useForm({
+  resolver: yupResolver(schema),
+});
+
+
  const { data, isLoading, isError } = useApi(
     'https://api.noroff.dev/api/v1/holidaze/profiles/'+params.name+'?_bookings=true&_venues=true',
     'GET'
   );
+
+  useEffect(() => {
+    setImgUrl(data.avatar);
+}, [data.avatar]);
+
+  const onSaveImgHandler = async (e) => {
+    const url = `https://api.noroff.dev/api/v1/holidaze/profiles/${userName}/media`;
+    const token = localStorage.getItem("Token");
+   
+    let newData = {
+      avatar: e.avatar
+    };
+   
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(newData),
+    };
+   
+    try {
+      const response = await fetch(url, options);
+      const json = await response.json();
+      console.log(json); //remove
+      if ( json.name ) {
+        window.location.reload(); 
+      } else {
+        console.log("Some error occured");
+      }
+   
+    } catch (error) {
+      console.log(error);
+    }
+    reset();
+   };
 
   const onClickConfirm = async (e) => {
     confirmAlert({
@@ -102,31 +162,34 @@ function ProfilePage() {
         <div className="d-flex align-items-center">
           <div className=" position-relative">
             <ProfileImgStyle className="me-2">
-              <img src={PlaceholderImage} alt="Personal profile" />
+            { data.avatar && data.avatar
+              ? <img src={data.avatar} alt="Personal profile" />
+              : <img src={PlaceholderImage} alt="Personal profile" />
+            }
             </ProfileImgStyle>
           { userName === params.name 
             ? <>
-              <img src={editIcon} id="editIcon" height="28px" width="28px" className="position-absolute bottom-0 start-0" alt="edit profile-icon" data-bs-toggle="modal" data-bs-target="#imgModal"/>
-                <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-3" id="imgModalLabel">Edit Profile Image</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <EditIconStyle src={editIcon} id="editIcon" className="position-absolute bottom-0 start-0" alt="edit profile-icon" data-bs-toggle="modal" data-bs-target="#imgModal"/>
+                <div className="modal fade" id="imgModal" tabIndex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-3" id="imgModalLabel">Edit Profile Image</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="modal-body row gap-1 align-items-center p-4">
+                      <div className="modal-body row gap-1 align-items-center p-4">
                         <ProfileImgStyle className="p-0">
                           <img src={imgUrl} alt="Personal profile" />
                         </ProfileImgStyle>
                         <div className="col">
-                          <label className="fs-5" htmlFor='editImg'>Direct Image Link (generate on <Links to="https://postimages.org/">postimages.org</Links>)</label>
-                          <Input id="editImg" className="w-100" type="url" pattern=".*\.(jpg|jpeg|png|svg)$" title="Direct Link to an Image (e.g. link ending with .jpg)"></Input>
-                          {/* <Error>{errorMessage}</Error> */}
+                          <label className="fs-5" htmlFor='editImg'>Direct Image Link (generate on <Links target="_blank" to="https://postimages.org/">postimages.org</Links>)</label>
+                          <Input id="editImg" className="w-100" {...register("avatar")} onChange={(e) => setNewImage(e.target.value)} title="Direct Link to an Image (e.g. link ending with .jpg)"></Input>
+                          <Error>{errors.avatar?.message}</Error>
                         </div>
                       </div>
-                      <div class="modal-footer">
-                        <ButtonSmaller2 type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</ButtonSmaller2>
-                        <ButtonSmaller type="button" class="btn btn-primary">Save</ButtonSmaller>
+                      <div className="modal-footer">
+                        <ButtonSmaller2 className="btn btn-secondary" data-bs-dismiss="modal">Close</ButtonSmaller2>
+                        <ButtonSmaller onClick={handleSubmit(onSaveImgHandler)} className="btn btn-primary">Save</ButtonSmaller>
                       </div>
                     </div>
                   </div>
@@ -240,7 +303,7 @@ function ProfilePage() {
         ? data.bookings.map((data) => (
           <div key={data.venue.id}>
             { data.dateTo < new Date().toISOString()
-                  ? <div className="d-flex flex-wrap">
+                  ? <div className="d-flex flex-wrap mb-5">
                   <VenueCard className="position-relative" title="Takes you to the venue page" to={`/venue/${data.venue.id}`}>
                   <div className="card-img-wrap">
                       { data.venue.media.length === 0 

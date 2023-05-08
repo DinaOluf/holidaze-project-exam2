@@ -14,8 +14,8 @@ const ProfileImgStyle = styled.div`
         img {
             object-fit: cover;
             min-height: 100%;
+            min-width: 100%;
             max-width: 100%;
-            max-height: 100%;
         }
 
     @media (max-width: 575px) {
@@ -24,4 +24,10 @@ const ProfileImgStyle = styled.div`
     }
 `
 
-export { RegisterProfileIcon, ProfileImgStyle };
+const EditIconStyle = styled.img`
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+`;
+
+export { RegisterProfileIcon, ProfileImgStyle, EditIconStyle };
