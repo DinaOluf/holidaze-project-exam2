@@ -11,12 +11,13 @@ import PetsIcon from "../../assets/images/pets-icon.png";
 import ProfileImg from "../../assets/images/profile-icon.png";
 import { DateInput, InputGuests, PersonIconStyle, VenueImgContainer, ServicesIcons } from '../styles/venue.styling';
 import { ProfileImgStyle } from '../styles/icons.styles';
-import { Button } from '../styles/buttons.styles';
+import { Button, Button2 } from '../styles/buttons.styles';
 import { formatDate } from '../timeDate';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Error } from '../styles/form.styles';
+import { confirmAlert } from 'react-confirm-alert';
 
 const schema = yup
   .object({
@@ -38,6 +39,7 @@ function VenuePage() {
   const navigate = useNavigate();
   const date = new Date().toISOString().slice(0, 10);
   const [ arrivalDate, setArrivalDate] = useState(date);
+  const userName = localStorage.getItem("Name");
 
 
   const { data, isLoading, isError } = useApi(
@@ -45,7 +47,44 @@ function VenuePage() {
     'GET'
   );
 
-  let bookings = data.bookings;
+  const bookings = data.bookings;
+
+  const onClickConfirm = async (e) => {
+    confirmAlert({
+      title: 'Cancel booking',
+      message: 'Are you sure you want to cancel your order?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => onDeleteHandler(e)
+        },
+        {
+          label: 'No',
+        }
+      ]
+    });
+  }
+
+  const onDeleteHandler = async (id) => {
+    const url = "https://api.noroff.dev/api/v1/holidaze/venues/"+id;
+    const token = localStorage.getItem("Token");
+  
+    const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    };
+  
+    try {
+      await fetch(url, options);
+      navigate("/");
+  
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 //   var getDaysArray = function(bookings) {
 //     let arr = [];
@@ -294,6 +333,13 @@ const onSubmitHandler = async (e) => {
                 Last updated: {formatDate(new Date(data.updated))}
               </div>
             </div>
+            { data.owner && data.owner.name === userName
+              ? <div className='row justify-content-evenly mt-5'>
+                  <Button2 onClick={() => onClickConfirm(data.id)}>Delete</Button2>
+                  <Button>Edit</Button>
+                </div>
+              : ""
+            }
           </div>
         </div>
       </div>
