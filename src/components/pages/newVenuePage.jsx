@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { InputGuests } from "../styles/venue.styling";
 import personIcon from "../../assets/images/person-icon.png";
 import { Links } from "../styles/links.style";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup
   .object().shape({
@@ -51,6 +52,7 @@ const schema = yup
   .required();
 
 function NewVenuePage() {
+  const navigate = useNavigate();
   useEffect(() => {
     document.title = "Holidaze | New Venue"
  }, []);
@@ -59,33 +61,46 @@ function NewVenuePage() {
   resolver: yupResolver(schema),
 });
 
-const onSubmitHandler = async (data) => {
-  console.log("submit")
-  // const options = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  // };
+const onSubmitHandler = async (e) => {
+  const url = "https://api.noroff.dev/api/v1/holidaze/venues"
+  const token = localStorage.getItem("Token");
 
-  // try {
-  //   console.log(data); //remove
-  //   const response = await fetch(url, options);
-  //   const json = await response.json();
-  //   console.log(json); //remove
-  //   if ( json.accessToken ) {
-  //     localStorage.setItem("Token", json.accessToken);
-  //     localStorage.setItem("Name", json.name);
-  //     localStorage.setItem("Manager", json.venueManager);
-  //     navigate("/");
-  //   } else {
-  //     console.log("Some error occured");
-  //   }
+  let newData = {
+    name: e.name,
+    description: e.description,
+    media: [e.media],
+    price: e.price,
+    maxGuests: e.maxGuests,
+    meta: {
+      wifi: e.wifi,
+      parking: e.parking,
+      breakfast: e.breakfast,
+      pets: e.pets
+    }
+  };
 
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(newData),
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const json = await response.json();
+    console.log(json); //remove
+    if ( json.id ) {
+      navigate(`/venue/${json.id}`);
+    } else {
+      alert(json.errors[0].message);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
 
   reset();
 };
@@ -114,7 +129,7 @@ const onSubmitHandler = async (data) => {
                       <div className="col-12 col-sm-12">
                         <label className="fs-5" htmlFor='price'>Price*</label>
                         <div className="d-flex">
-                          <Input2 id="price" className="text-end fs-4" type="number" defaultValue={0} {...register("price")} />
+                          <Input2 id="price" className="text-end fs-4" min={0} max={999999} type="number" defaultValue={0} {...register("price")} />
                           <span className="ms-1 fs-5">kr</span>
                         </div>
                         <div>(per night)</div>
