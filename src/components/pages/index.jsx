@@ -22,7 +22,7 @@ function Home() {
      }
 
      const { data, isLoading, isError } = useApi(
-        'https://api.noroff.dev/api/v1/holidaze/venues',
+        'https://api.noroff.dev/api/v1/holidaze/venues?sort=created',
         'GET'
       );
   
