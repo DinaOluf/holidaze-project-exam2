@@ -11,12 +11,12 @@ import PetsIcon from "../../assets/images/pets-icon.png";
 import ProfileImg from "../../assets/images/profile-icon.png";
 import { DateInput, InputGuests, PersonIconStyle, VenueImgContainer, ServicesIcons } from '../styles/venue.styling';
 import { ProfileImgStyle } from '../styles/icons.styles';
-import { Button, Button2 } from '../styles/buttons.styles';
+import { Button, Button2, ButtonSmaller, ButtonSmaller2 } from '../styles/buttons.styles';
 import { formatDate } from '../timeDate';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Error } from '../styles/form.styles';
+import { Error, Input } from '../styles/form.styles';
 import { confirmAlert } from 'react-confirm-alert';
 
 const schema = yup
@@ -85,6 +85,41 @@ function VenuePage() {
       console.log(error);
     }
   };
+
+  const onEditHandler = async (e) => {
+    console.log(e);
+    console.log("submitted");
+    // const url = `https://api.noroff.dev/api/v1/holidaze/profiles/${userName}/media`;
+    // const token = localStorage.getItem("Token");
+   
+    // let newData = {
+    //   avatar: e.avatar
+    // };
+   
+    // const options = {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`
+    //     },
+    //     body: JSON.stringify(newData),
+    // };
+   
+    // try {
+    //   const response = await fetch(url, options);
+    //   const json = await response.json();
+    //   console.log(json); //remove
+    //   if ( json.name ) {
+    //     window.location.reload(); 
+    //   } else {
+    //     console.log("Some error occured");
+    //   }
+   
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // reset();
+   };
 
 //   var getDaysArray = function(bookings) {
 //     let arr = [];
@@ -336,11 +371,66 @@ const onSubmitHandler = async (e) => {
             { data.owner && data.owner.name === userName
               ? <div className='row justify-content-evenly mt-5'>
                   <Button2 onClick={() => onClickConfirm(data.id)}>Delete</Button2>
-                  <Button>Edit</Button>
+                  <Button data-bs-toggle="modal" data-bs-target="#editModal">Edit</Button>
+                  
+                  <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h1 className="modal-title fs-3" id="editModalLabel">Edit Venue</h1>
+                          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body row gap-1 align-items-center p-4">
+
+                          <div className="col">
+                            <label className="fs-5" htmlFor='editVenue'>Venue Title</label>
+                            <Input id="editVenue" className="w-100"></Input>
+                            <Error></Error>
+                          </div>
+
+                       
+                          <div className="modal-footer">
+                            <ButtonSmaller2 className="btn btn-secondary" data-bs-dismiss="modal">Close</ButtonSmaller2>
+                            <ButtonSmaller onClick={handleSubmit(onEditHandler)} className="btn btn-primary">Save</ButtonSmaller>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
                 </div>
               : ""
             }
           </div>
+          { bookings && data.owner.name && userName === data.owner.name && bookings.length !== 0
+            ? <>
+                <hr className='mt-5' />
+                <div className='mt-5'>
+                  <h3>Bookings to your Venue</h3>
+                  <table className="table table-striped">
+                    <thead>
+                      <tr className='table-secondary'>
+                        <th scope="col">Order no.</th>
+                        <th scope="col">Date of arrival</th>
+                        <th scope="col">Date of departure</th>
+                        <th scope="col">Guest(s)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {bookings.map((data, index) => (
+                      <tr key={data.id}>
+                        <th scope="row">{index+1}</th>
+                        <td>{data.dateFrom.slice(0, 10)}</td>
+                        <td>{data.dateTo.slice(0, 10)}</td>
+                        <td>{data.guests}</td>
+                      </tr>
+                    ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            : ""
+          }
         </div>
       </div>
   </main>;
