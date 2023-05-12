@@ -16,8 +16,9 @@ import { formatDate } from '../timeDate';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Error, Input } from '../styles/form.styles';
+import { Check, Error, Input2, TextArea } from '../styles/form.styles';
 import { confirmAlert } from 'react-confirm-alert';
+import { Links } from '../styles/links.style';
 
 const schema = yup
   .object({
@@ -32,6 +33,48 @@ const schema = yup
       .required('Please choose a date')
       .min(1, "Must be at least 1")
   })
+  .required();
+
+  const venueSchema = yup
+  .object().shape({
+    name: yup
+      .string()
+      .required('Please enter name of venue')
+      .typeError('Please enter name of venue')
+      .min(3, "Must contain at least 3 characters"),
+    description: yup
+      .string()
+      .required('Please enter a description')
+      .typeError('Please enter a description')
+      .min(20, "Must contain at least 20 characters")
+      .max(2500, "Max 2500 characters"),
+    media: yup
+      .string()
+      .when('media', {
+        is: null || "",
+        then: () => yup.string().nullable(),
+        otherwise: () => yup.string().matches(/(http)?s?:?(\/\/[^"']*\.(?:jpg|jpeg|gif|png|svg))/, "Must be a direct image link")
+      }),
+    price: yup
+      .number()
+      .typeError('Please enter a number')
+      .required('Please enter price per night')
+      .min(1, "Must be at least 1 kr"),
+    maxGuests: yup
+      .number()
+      .typeError('Please enter a number')
+      .required('Please enter maximum amount of guests')
+      .min(1, "Must be at least 1 guest")
+      .max(100, "Max 100 guests"),
+    wifi: yup
+      .boolean(),
+    parking: yup
+      .boolean(),
+    breakfast: yup
+      .boolean(),
+    pets: yup
+      .boolean(),
+  }, [['media', 'media']])
   .required();
 
 function VenuePage() {
@@ -87,38 +130,46 @@ function VenuePage() {
   };
 
   const onEditHandler = async (e) => {
-    console.log(e);
-    console.log("submitted");
-    // const url = `https://api.noroff.dev/api/v1/holidaze/profiles/${userName}/media`;
-    // const token = localStorage.getItem("Token");
+    const url = `https://api.noroff.dev/api/v1/holidaze/venues/${params.id}`;
+    const token = localStorage.getItem("Token");
    
-    // let newData = {
-    //   avatar: e.avatar
-    // };
+  let newData = {
+    name: e.name,
+    description: e.description,
+    media: [e.media],
+    price: e.price,
+    maxGuests: e.maxGuests,
+    meta: {
+      wifi: e.wifi,
+      parking: e.parking,
+      breakfast: e.breakfast,
+      pets: e.pets
+    }
+  };
    
-    // const options = {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${token}`
-    //     },
-    //     body: JSON.stringify(newData),
-    // };
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(newData),
+    };
    
-    // try {
-    //   const response = await fetch(url, options);
-    //   const json = await response.json();
-    //   console.log(json); //remove
-    //   if ( json.name ) {
-    //     window.location.reload(); 
-    //   } else {
-    //     console.log("Some error occured");
-    //   }
+    try {
+      const response = await fetch(url, options);
+      const json = await response.json();
+      console.log(json); //remove
+      if ( json.name ) {
+        window.location.reload(); 
+      } else {
+        alert(json.errors[0].message);
+      }
    
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // reset();
+    } catch (error) {
+      console.log(error);
+    }
+    resetEdit();
    };
 
 //   var getDaysArray = function(bookings) {
@@ -138,8 +189,12 @@ function VenuePage() {
     document.title = `Holidaze | Venue | ${data.name}`; 
  }, [data]);
 
- const { register, handleSubmit, formState: { errors }, reset } = useForm({
+ const { register: regBook, handleSubmit: handleBook, formState: { errors: errorsBook }, reset: resetBook } = useForm({
   resolver: yupResolver(schema),
+});
+
+const { register: regEdit, handleSubmit: handleEdit, formState: { errors: errorsEdit }, reset: resetEdit } = useForm({
+  resolver: yupResolver(venueSchema),
 });
 
 const onSubmitHandler = async (e) => {
@@ -176,7 +231,7 @@ const onSubmitHandler = async (e) => {
     console.log(error);
   }
 
-  reset();
+  resetBook();
 };
   
   if (isLoading) {
@@ -277,30 +332,30 @@ const onSubmitHandler = async (e) => {
               </div>
             </div>
             <div className='fs-5 mb-4'>{data.price},- per night</div>
-            <form className='d-flex justify-content-between flex-wrap gap-2' onSubmit={handleSubmit(onSubmitHandler)}>
+            <form className='d-flex justify-content-between flex-wrap gap-2' onSubmit={handleBook(onSubmitHandler)}>
               <div className='col d-flex justify-content-evenly'>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateArrival'>Date of arrival</label>
                   {/* data.bookings && data.bookings[0].dateFrom && data.bookings[0].dateTo */} 
                   { bookings 
-                  ? <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput>
-                  : <DateInput id='dateArrival' {...register("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput> }
-                  <Error>{errors.dateArrival?.message}</Error>
+                  ? <DateInput id='dateArrival' {...regBook("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput>
+                  : <DateInput id='dateArrival' {...regBook("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput> }
+                  <Error>{errorsBook.dateArrival?.message}</Error>
                 </div>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateDeparture'>Date of departure</label>
-                  <DateInput id='dateDeparture' {...register("dateDeparture")} type='date' min={arrivalDate}></DateInput>
-                  <Error>{errors.dateDeparture?.message}</Error>
+                  <DateInput id='dateDeparture' {...regBook("dateDeparture")} type='date' min={arrivalDate}></DateInput>
+                  <Error>{errorsBook.dateDeparture?.message}</Error>
                 </div>
               </div>
               <div className='col d-flex justify-content-evenly align-items-center'>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='numberGuests'>Guest(s)</label>
                   <InputGuests className='d-flex'>
-                    <input id='numberGuests' {...register("numberGuests")} className='text-end' min={0} max={data.maxGuests} type='number' defaultValue={0}></input>
+                    <input id='numberGuests' {...regBook("numberGuests")} className='text-end' min={0} max={data.maxGuests} type='number' defaultValue={0}></input>
                     <img src={PersonIcon} alt='Person icon' />
                   </InputGuests>
-                  <Error>{errors.numberGuests?.message}</Error>
+                  <Error>{errorsBook.numberGuests?.message}</Error>
                 </div>
                 <Button>Book</Button>
               </div>
@@ -368,32 +423,87 @@ const onSubmitHandler = async (e) => {
                 Last updated: {formatDate(new Date(data.updated))}
               </div>
             </div>
-            { data.owner && data.owner.name === userName
+            { data.owner && data.owner.name === userName 
               ? <div className='row justify-content-evenly mt-5'>
                   <Button2 onClick={() => onClickConfirm(data.id)}>Delete</Button2>
                   <Button data-bs-toggle="modal" data-bs-target="#editModal">Edit</Button>
                   
                   <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-dialog modal-xl modal-dialog-centered">
                       <div className="modal-content">
                         <div className="modal-header">
                           <h1 className="modal-title fs-3" id="editModalLabel">Edit Venue</h1>
                           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body row gap-1 align-items-center p-4">
-
-                          <div className="col">
-                            <label className="fs-5" htmlFor='editVenue'>Venue Title</label>
-                            <Input id="editVenue" className="w-100"></Input>
-                            <Error></Error>
+                        <form className="modal-body row gap-1 align-items-center p-4">
+                          <div className="row flex-wrap">
+                            <div className="col-12 col-md-5">
+                              <div className="d-flex flex-column">
+                                <label className="fs-5" htmlFor='name'>Venue Name*</label>
+                                <Input2 id="name" {...regEdit("name")} defaultValue={data.name} />
+                                <Error>{errorsEdit.name?.message}</Error>
+                              </div>
+                              <div className="row flex-row">
+                                <div className="pe-0 col">
+                                  <label className="fs-5" htmlFor='maxGuests'>Max Guest(s)*</label>
+                                    <InputGuests className='d-flex'>
+                                      <input id='maxGuests' {...regEdit("maxGuests")} className='text-end' min={0} max={100} type='number' defaultValue={data.maxGuests}></input>
+                                      <img src={PersonIcon} alt='Person icon' />
+                                    </InputGuests>
+                                    <Error>{errorsEdit.maxGuests?.message}</Error>
+                                </div>
+                                <div className="col-12">
+                                  <label className="fs-5" htmlFor='price'>Price*</label>
+                                  <div className="d-flex">
+                                    <Input2 id="price" className="text-end fs-4" min={0} max={999999} type="number" defaultValue={data.price} {...regEdit("price")} />
+                                    <span className="ms-1 fs-5">kr</span>
+                                  </div>
+                                  <div>(per night)</div>
+                                  <Error>{errorsEdit.price?.message}</Error>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-12 col-md-7">
+                              <div className="d-flex flex-column">
+                                <label className="fs-5" htmlFor='media'>Direct Image link</label>
+                                <Input2 id="media" title="A direct image link usually ends with '.jpg' or something similar" {...regEdit("media")} defaultValue={data.media[0]} />
+                                <div>(Generate on <Links to="https:/postimages.org/" target="_blank">postimages.org</Links>)</div>
+                                <Error>{errorsEdit.media?.message}</Error>
+                              </div>
+                              <div className="d-flex gap-4 ms-1">
+                                <div>
+                                  <div className="d-flex align-items-center">
+                                    <Check id="wifi" type="checkbox" {...regEdit("wifi")} defaultChecked={data.meta.wifi}></Check>
+                                    <label className="fs-5 ms-2" htmlFor="wifi">Wifi</label>
+                                  </div>
+                                  <div>
+                                    <Check id="parking" type="checkbox" {...regEdit("parking")} defaultChecked={data.meta.parking}></Check>
+                                    <label className="fs-5 ms-2" htmlFor="parking">Parking</label>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div>
+                                    <Check id="breakfast" type="checkbox" {...regEdit("breakfast")} defaultChecked={data.meta.breakfast}></Check>
+                                    <label className="fs-5 ms-2" htmlFor="breakfast">Breakfast</label>
+                                  </div>
+                                  <div>
+                                    <Check id="pets" type="checkbox" {...regEdit("pets")} defaultChecked={data.meta.pets}></Check>
+                                    <label className="fs-5 ms-2" htmlFor="pets">Pets</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-
-                       
+                          <div className="d-flex flex-column mt-3">
+                            <label className="fs-5" htmlFor='description'>Description*</label>
+                            <TextArea id="description" {...regEdit("description")} defaultValue={data.description} />
+                            <Error>{errorsEdit.description?.message}</Error>
+                          </div>
                           <div className="modal-footer">
                             <ButtonSmaller2 className="btn btn-secondary" data-bs-dismiss="modal">Close</ButtonSmaller2>
-                            <ButtonSmaller onClick={handleSubmit(onEditHandler)} className="btn btn-primary">Save</ButtonSmaller>
+                            <ButtonSmaller onClick={handleEdit(onEditHandler)} className="btn btn-primary">Save</ButtonSmaller>
                           </div>
-                        </div>
+                        </form>
                       </div>
                     </div>
                     
