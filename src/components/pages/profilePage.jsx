@@ -374,7 +374,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
         : ""}
       </ContainerCard>
       {data.venueManager && data.venues.length !== 0
-      ? <div className='col-11 col-sm-9 col-xl-7 mt-4'>
+      ? <div className='col-11 col-sm-9 col-xl-7 mt-4 px-3'>
           <h2>{data.name}'s Venues</h2>
           <div className="d-flex justify-content-evenly gap-4 mt-4 flex-wrap">
                 {data.venues.map((data) => (
