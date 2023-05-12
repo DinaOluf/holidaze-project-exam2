@@ -55,7 +55,7 @@ function LoginPage() {
           localStorage.setItem("Manager", json.venueManager);
           navigate("/");
         } else {
-          console.log("Some error occured");
+          alert(json.errors[0].message);
         }
 
       } catch (error) {
