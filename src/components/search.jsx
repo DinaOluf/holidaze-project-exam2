@@ -11,9 +11,14 @@ import FoodIcon from "../assets/images/breakfast-icon.png";
 import PetsIcon from "../assets/images/pets-icon.png";
 import PlaceholderImg from "../assets/images/placeholder-image.png";
 import { Loader } from "./styles/loader.styles";
+import { Check } from "./styles/form.styles";
 
 function Search () {  
     const [searchInput, setSearchInput] = useState('');
+    const [wifiInput, setWifiInput] = useState('false');
+    const [parkingInput, setParkingInput] = useState('false');
+    const [breakfastInput, setBreakfastInput] = useState('false');
+    const [petsInput, setPetsInput] = useState('false');
     const [filteredProducts, setFilteredProducts] = useState([]);
 
     const cut20 = (line) => {
@@ -53,29 +58,75 @@ function Search () {
     </main>;
     };
 
-    console.log(data); //remove
+    // console.log(data); //remove
 
     
-      function onSearchInputChange(searchValue) {
-        setSearchInput(searchValue);
-    
+      function onSearchInputChange(target, targetId) {
+        if(targetId === "searchInput"){
+            setSearchInput(target.value);
+        }
+        console.log(target)
+
+        if(targetId === "wifi"){
+            setWifiInput(target.checked)
+        }
+        if(targetId === "parking"){
+            setParkingInput(target.checked)
+        }
+        if(targetId === "breakfast"){
+            setBreakfastInput(target.checked)
+        }
+        if(targetId === "pets"){
+            setPetsInput(target.checked)
+        }
+        
+        // if(wifiInput === "true"){
+            // Continute tomorrow
+        // }
         const results = data.filter((venue) => {
-
-        return venue.name.toLowerCase().includes(searchValue.toLowerCase());
-    });
-    setFilteredProducts(results);
+            return venue.name.toLowerCase().includes(searchInput.toLowerCase()) || venue.description.toLowerCase().includes(searchInput.toLowerCase());
+        });
+        
+        setFilteredProducts(results);
     }
 
     function onInputChange(event) {
-        onSearchInputChange(event.currentTarget.value);
+        const targetId = event.currentTarget.id;
+        const target = event.currentTarget;
+
+        onSearchInputChange(target, targetId);
     }
 
     return (
         <>
-            <SearchWrap className="align-self-center">
-                <img src={ MagnifyingGlass } alt="" />
-                <input onChange={onInputChange} value={searchInput}></input>
-            </SearchWrap>
+            <div className="d-flex flex-wrap gap-4 align-self-center align-items-center">
+                <SearchWrap>
+                    <img src={ MagnifyingGlass } alt="" />
+                    <input onChange={onInputChange} id="searchInput" value={searchInput}></input>
+                </SearchWrap>
+                <div className="d-flex gap-3">
+                    <div>
+                        <div className="d-flex align-items-center">
+                            <Check onChange={onInputChange} id="wifi" type="checkbox"></Check>
+                            <label className="fs-5 ms-2" htmlFor="wifi">Wifi</label>
+                        </div>
+                        <div>
+                            <Check onChange={onInputChange} id="parking" type="checkbox"></Check>
+                            <label className="fs-5 ms-2" htmlFor="parking">Parking</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <Check onChange={onInputChange} id="breakfast" type="checkbox"></Check>
+                            <label className="fs-5 ms-2" htmlFor="breakfast">Breakfast</label>
+                        </div>
+                        <div>
+                            <Check onChange={onInputChange} id="pets" type="checkbox"></Check>
+                            <label className="fs-5 ms-2" htmlFor="pets">Pets</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div>
                 {
                     searchInput !== ``
