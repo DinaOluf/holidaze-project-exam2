@@ -31,12 +31,12 @@ function Nav() {
             <div className='col px-0'>
                 { !token
                     ? <ul className='row mb-0 list-style-type-none list-unstyled justify-content-end'>
-                        <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0'>
+                        <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0 text-center'>
                             <NavLink to='Register'>
                                 Register
                             </NavLink>
                         </li>
-                        <li className='col-3 col-sm-2 px-0'>
+                        <li className='col-3 col-sm-2 px-0 text-center'>
                             <NavLink to='Login'>
                                 Log in
                             </NavLink>
@@ -46,12 +46,12 @@ function Nav() {
                 }
                 { token && manager === "false"
                     ? <ul className='row mb-0 list-style-type-none list-unstyled justify-content-end'>
-                        <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0'>
+                        <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0 text-center'>
                             <NavLink to={`/Profile/${name}`}>
                                 Profile
                             </NavLink>
                         </li>
-                        <li className='col-3 col-sm-2 px-0'>
+                        <li className='col-3 col-sm-2 px-0 text-center'>
                             {/* Remember to make event listener for logout - should not be a link */}
                             <NavLinkDiv onClick={() => handleLogout()}> 
                                 Log out
@@ -62,17 +62,17 @@ function Nav() {
                 }
                     { token && manager === "true"
                     ? <ul className='row mb-0 list-style-type-none list-unstyled justify-content-end'>
-                        <li className='col-4 col-sm-3 col-md-2 col-xxl-1 px-0 me-2'>
+                        <li className='col-4 col-sm-3 col-md-2 col-xxl-1 px-0 me-2 text-center'>
                             <NavLink to='New-Venue'>
                                 New Venue
                             </NavLink>
                         </li>
-                        <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0'>
+                        <li className='col-3 col-sm-3 col-md-2 col-xxl-1 px-0 text-center'>
                             <NavLink to={`/profile/${name}`} >
                                 Profile
                             </NavLink>
                         </li>
-                        <li className='col-3 col-sm-2 px-0'>
+                        <li className='col-3 col-sm-2 col-xxl-1 px-0 text-center'>
                             {/* Remember to make event listener for logout - should not be a link */}
                             <NavLinkDiv onClick={() => handleLogout()}> 
                                 Log out
