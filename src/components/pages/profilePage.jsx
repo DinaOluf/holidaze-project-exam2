@@ -130,7 +130,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
   
     try {
       await fetch(url, options);
-      window.location.reload();
+      window.location.reload(false);
   
     } catch (error) {
       console.log(error);
