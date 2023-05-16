@@ -94,8 +94,8 @@ function VenuePage() {
 
   const onClickConfirm = async (e) => {
     confirmAlert({
-      title: 'Cancel booking',
-      message: 'Are you sure you want to cancel your order?',
+      title: 'Delete venue',
+      message: 'Are you sure you want to delete this venue?',
       buttons: [
         {
           label: 'Yes',

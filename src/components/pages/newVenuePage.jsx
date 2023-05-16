@@ -65,19 +65,37 @@ const onSubmitHandler = async (e) => {
   const url = "https://api.noroff.dev/api/v1/holidaze/venues"
   const token = localStorage.getItem("Token");
 
-  let newData = {
-    name: e.name,
-    description: e.description,
-    media: [e.media],
-    price: e.price,
-    maxGuests: e.maxGuests,
-    meta: {
-      wifi: e.wifi,
-      parking: e.parking,
-      breakfast: e.breakfast,
-      pets: e.pets
-    }
-  };
+  let newData = {};
+
+  if(e.media !== ''){
+   newData = {
+      name: e.name,
+      description: e.description,
+      media: [e.media],
+      price: e.price,
+      maxGuests: e.maxGuests,
+      meta: {
+        wifi: e.wifi,
+        parking: e.parking,
+        breakfast: e.breakfast,
+        pets: e.pets
+      }
+    };
+  } else {
+    newData = {
+      name: e.name,
+      description: e.description,
+      price: e.price,
+      maxGuests: e.maxGuests,
+      meta: {
+        wifi: e.wifi,
+        parking: e.parking,
+        breakfast: e.breakfast,
+        pets: e.pets
+      }
+    };
+  }
+
 
   const options = {
       method: "POST",
