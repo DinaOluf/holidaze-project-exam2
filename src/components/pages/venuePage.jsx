@@ -161,7 +161,7 @@ function VenuePage() {
       const json = await response.json();
       console.log(json); //remove
       if ( json.name ) {
-        window.location.reload(false);
+        window.location.reload(); 
       } else {
         alert(json.errors[0].message);
       }
