@@ -240,7 +240,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                             { data.venue.meta.breakfast 
                                 ? <img src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
                                 : "" }
-                            { data.venue.meta.parking 
+                            { data.venue.meta.pets 
                                 ? <img src={PetsIcon} className="card-icons" alt="pets icon"/>
                                 : "" }
                         </div>
@@ -339,7 +339,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                           { data.venue.meta.breakfast 
                               ? <img src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
                               : "" }
-                          { data.venue.meta.parking 
+                          { data.venue.meta.pets 
                               ? <img src={PetsIcon} className="card-icons" alt="pets icon"/>
                               : "" }
                       </div>

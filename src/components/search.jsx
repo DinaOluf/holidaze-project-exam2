@@ -156,7 +156,7 @@ function Search () {
                                     { data.meta.breakfast 
                                         ? <img src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
                                         : "" }
-                                    { data.meta.parking 
+                                    { data.meta.pets 
                                         ? <img src={PetsIcon} className="card-icons" alt="pets icon"/>
                                         : "" }
                                 </div>
@@ -196,7 +196,7 @@ function Search () {
                                     { data.meta.breakfast 
                                         ? <img src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
                                         : "" }
-                                    { data.meta.parking 
+                                    { data.meta.pets 
                                         ? <img src={PetsIcon} className="card-icons" alt="pets icon"/>
                                         : "" }
                                 </div>

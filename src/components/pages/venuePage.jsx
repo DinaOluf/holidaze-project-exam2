@@ -363,25 +363,25 @@ const onSubmitHandler = async (e) => {
             <div>
               <h2 className='border-bottom border-dark w-100 mt-4'>Services</h2>
               <div className="d-flex justify-content-evenly my-4">
-                  { data.meta && data.meta.wifi 
+                  { data.meta && data.meta.wifi
                       ? <div className='d-flex flex-column align-items-center'>
                           <ServicesIcons src={WifiIcon} className="card-icons" alt="wifi icon"/> 
                           <div className='mt-1 fs-5'>Wi-fi</div>
                         </div>
                       : "" }
-                  { data.meta && data.meta.parking 
+                  { data.meta && data.meta.parking
                       ? <div className='d-flex flex-column align-items-center'>
                           <ServicesIcons src={ParkingIcon} className="card-icons" alt="parking icon"/> 
                           <div className='mt-1 fs-5'>Parking</div>
                         </div>
                       : "" }
-                  { data.meta && data.meta.breakfast 
+                  { data.meta && data.meta.breakfast
                       ? <div className='d-flex flex-column align-items-center'>
                           <ServicesIcons src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
                           <div className='mt-1 fs-5'>Breakfast</div>
                         </div>
                       : "" }
-                  { data.meta && data.meta.parking 
+                  { data.meta && data.meta.pets
                       ? <div className='d-flex flex-column align-items-center'>
                           <ServicesIcons src={PetsIcon} className="card-icons" alt="pets icon"/>
                           <div className='mt-1 fs-5'>Pets</div>
