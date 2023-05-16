@@ -12,24 +12,57 @@ import PetsIcon from "../assets/images/pets-icon.png";
 import PlaceholderImg from "../assets/images/placeholder-image.png";
 import { Loader } from "./styles/loader.styles";
 import { Check } from "./styles/form.styles";
+import { useEffect } from "react";
 
 function Search () {  
     const [searchInput, setSearchInput] = useState('');
-    const [wifiInput, setWifiInput] = useState('false');
-    const [parkingInput, setParkingInput] = useState('false');
-    const [breakfastInput, setBreakfastInput] = useState('false');
-    const [petsInput, setPetsInput] = useState('false');
+    const [wifiInput, setWifiInput] = useState(false);
+    const [parkingInput, setParkingInput] = useState(false);
+    const [breakfastInput, setBreakfastInput] = useState(false);
+    const [petsInput, setPetsInput] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState([]);
+
+    const { data, isLoading, isError } = useApi(
+        'https://api.noroff.dev/api/v1/holidaze/venues?sort=created',
+        'GET'
+      );
+
+    useEffect(() => {
+        setFilteredProducts([]);
+        
+        let results = data.filter((venue) => {
+            if(searchInput !== ''){
+                return (venue.name.toLowerCase().includes(searchInput.toLowerCase()) || venue.description.toLowerCase().includes(searchInput.toLowerCase()));
+            } else {
+                return venue;
+            }
+        });
+
+        if (wifiInput === true) {
+            results = results.filter((venue) => {
+                return venue.meta.wifi;
+            });
+        } if (parkingInput === true) {
+            results = results.filter((venue) => {
+                return venue.meta.parking;
+            });
+        } if (breakfastInput === true) {
+            results = results.filter((venue) => {
+                return venue.meta.breakfast;
+            });
+        } if (petsInput === true) {
+            results = results.filter((venue) => {
+                return venue.meta.pets;
+            });
+        }
+
+        setFilteredProducts(results);
+    }, [wifiInput, parkingInput, breakfastInput, petsInput, data, searchInput])
 
     const cut20 = (line) => {
         return line.slice(0, 20) + "...";
      }
     
-     const { data, isLoading, isError } = useApi(
-        'https://api.noroff.dev/api/v1/holidaze/venues?sort=created',
-        'GET'
-      );
-  
     if (isLoading) {
       return <main id="container d-flex flex-column p-5">
         <Hidden>
@@ -58,70 +91,31 @@ function Search () {
     </main>;
     };
 
-    // console.log(data); //remove
-
-    
-      function onSearchInputChange(target, targetId) {
-        if(targetId === "searchInput"){
-            setSearchInput(target.value);
-        }
-        console.log(target)
-
-        if(targetId === "wifi"){
-            setWifiInput(target.checked)
-        }
-        if(targetId === "parking"){
-            setParkingInput(target.checked)
-        }
-        if(targetId === "breakfast"){
-            setBreakfastInput(target.checked)
-        }
-        if(targetId === "pets"){
-            setPetsInput(target.checked)
-        }
-        
-        // if(wifiInput === "true"){
-            // Continute tomorrow
-        // }
-        const results = data.filter((venue) => {
-            return venue.name.toLowerCase().includes(searchInput.toLowerCase()) || venue.description.toLowerCase().includes(searchInput.toLowerCase());
-        });
-        
-        setFilteredProducts(results);
-    }
-
-    function onInputChange(event) {
-        const targetId = event.currentTarget.id;
-        const target = event.currentTarget;
-
-        onSearchInputChange(target, targetId);
-    }
-
     return (
         <>
-            <div className="d-flex flex-wrap gap-4 align-self-center align-items-center">
+            <div className="d-flex flex-wrap gap-4 align-self-center align-items-center justify-content-center">
                 <SearchWrap>
                     <img src={ MagnifyingGlass } alt="" />
-                    <input onChange={onInputChange} id="searchInput" value={searchInput}></input>
+                    <input onChange={(e) => setSearchInput(e.currentTarget.value)} id="searchInput" value={searchInput}></input>
                 </SearchWrap>
                 <div className="d-flex gap-3">
                     <div>
                         <div className="d-flex align-items-center">
-                            <Check onChange={onInputChange} id="wifi" type="checkbox"></Check>
+                            <Check onChange={(e) => setWifiInput(e.currentTarget.checked)} id="wifi" type="checkbox"></Check>
                             <label className="fs-5 ms-2" htmlFor="wifi">Wifi</label>
                         </div>
                         <div>
-                            <Check onChange={onInputChange} id="parking" type="checkbox"></Check>
+                            <Check onChange={(e) => setParkingInput(e.currentTarget.checked)} id="parking" type="checkbox"></Check>
                             <label className="fs-5 ms-2" htmlFor="parking">Parking</label>
                         </div>
                     </div>
                     <div>
                         <div>
-                            <Check onChange={onInputChange} id="breakfast" type="checkbox"></Check>
+                            <Check onChange={(e) => setBreakfastInput(e.currentTarget.checked)} id="breakfast" type="checkbox"></Check>
                             <label className="fs-5 ms-2" htmlFor="breakfast">Breakfast</label>
                         </div>
                         <div>
-                            <Check onChange={onInputChange} id="pets" type="checkbox"></Check>
+                            <Check onChange={(e) => setPetsInput(e.currentTarget.checked)} id="pets" type="checkbox"></Check>
                             <label className="fs-5 ms-2" htmlFor="pets">Pets</label>
                         </div>
                     </div>
@@ -171,7 +165,7 @@ function Search () {
                         ))}
                     </div>
                     : <div className="d-flex justify-content-center gap-4 mt-4 flex-wrap">
-                        {data.map((data) => (
+                        {filteredProducts.map((data) => (
                         <VenueCard className="position-relative" key={data.id} to={`/venue/${data.id}`}>
                             <div className="card-img-wrap">
                                 { data.media.length === 0 
