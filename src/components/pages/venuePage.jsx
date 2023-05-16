@@ -53,7 +53,7 @@ const schema = yup
       .when('media', {
         is: null || "",
         then: () => yup.string().nullable(),
-        otherwise: () => yup.string().matches(/(http)?s?:?(\/\/[^"']*\.(?:jpg|jpeg|gif|png|svg))/, "Must be a direct image link")
+        otherwise: () => yup.string().matches(/(http)?s?:?(\/\/[^"']*\.(?:jpg|jpeg|gif|png|svg))/ | "https://source.unsplash.com/1600x900/?hotel", "Must be a direct image link")
       }),
     price: yup
       .number()
