@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
 
 const VenueImgContainer = styled.div`
     height: 34rem;
@@ -63,7 +64,7 @@ const InputGuests = styled.div`
     }
 `;
 
-const DateInput = styled.input`
+const DateInput = styled(DatePicker)`
     font-size: 1.2rem;
     width: 10rem;
     height: 2.5rem;

@@ -19,15 +19,16 @@ import * as yup from 'yup';
 import { Check, Error, Input2, TextArea } from '../styles/form.styles';
 import { confirmAlert } from 'react-confirm-alert';
 import { Links } from '../styles/links.style';
+import "react-datepicker/dist/react-datepicker.css";
 
 const schema = yup
   .object({
     dateArrival: yup
       .string()
-      .required('Please choose a date'),
+      .matches(/(^0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4}$)/, "Must match date format"),
     dateDeparture: yup
       .string()
-      .required('Please choose a date'),
+      .matches(/(^0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4}$)/, "Must match date format"),
     numberGuests: yup
       .number()
       .required('Please choose a date')
@@ -80,8 +81,9 @@ const schema = yup
 function VenuePage() {
   let params = useParams();
   const navigate = useNavigate();
-  const date = new Date().toISOString().slice(0, 10);
+  const date = new Date();
   const [ arrivalDate, setArrivalDate] = useState(date);
+  const [ departureDate, setDepartureDate] = useState(arrivalDate);
   const userName = localStorage.getItem("Name");
 
 
@@ -207,18 +209,16 @@ const { register: regEdit, handleSubmit: handleEdit, formState: { errors: errors
     resetEdit();
    };
 
-//   var getDaysArray = function(bookings) {
-//     let arr = [];
-//     for (let i = 0; i < bookings.length; i++) {
-//       for(let dt=new Date(bookings[i].dateFrom); dt<=new Date(bookings[i].dateTo); dt.setDate(dt.getDate()+1)){
-//         arr.push(new Date(dt).toISOString().slice(0, 10));
-//       }
-//     } 
-//     console.log(arr) //remove
-//     return arr;   
-// };
-
-// excludeDates={getDaysArray(data.bookings)}
+  var getDaysArray = function(bookings) {
+    let arr = [];
+    for (let i = 0; i < bookings.length; i++) {
+      for(let dt=new Date(bookings[i].dateFrom); dt<=new Date(bookings[i].dateTo); dt.setDate(dt.getDate()+1)){
+        arr.push(new Date(dt));
+      }
+    } 
+    console.log(arr) //remove
+    return arr; 
+};
 
 
 const onSubmitHandler = async (e) => {
@@ -226,8 +226,8 @@ const onSubmitHandler = async (e) => {
   const token = localStorage.getItem("Token");
 
   let newData = {
-    dateFrom: e.dateArrival,
-    dateTo: e.dateDeparture,
+    dateFrom: arrivalDate,
+    dateTo: departureDate,
     guests: e.numberGuests,
     venueId: data.id,
   };
@@ -342,15 +342,17 @@ const onSubmitHandler = async (e) => {
               <div className='col d-flex justify-content-evenly'>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateArrival'>Date of arrival</label>
-                  {/* data.bookings && data.bookings[0].dateFrom && data.bookings[0].dateTo */} 
                   { bookings 
-                  ? <DateInput id='dateArrival' {...regBook("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput>
-                  : <DateInput id='dateArrival' {...regBook("dateArrival")} onChange={e => setArrivalDate(e.target.value)} type='date' min={date}></DateInput> }
+                  ? <DateInput className='text-center' id='dateArrival' {...regBook("dateArrival").value} selected={arrivalDate} onChange={date => setArrivalDate(date)} type='date' minDate={date} excludeDates={getDaysArray(bookings)} dateFormat={`dd/MM/yyyy`} defaultValue={arrivalDate.toISOString()}></DateInput>
+                  : <Loader /> }
                   <Error>{errorsBook.dateArrival?.message}</Error>
                 </div>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateDeparture'>Date of departure</label>
-                  <DateInput id='dateDeparture' {...regBook("dateDeparture")} type='date' min={arrivalDate}></DateInput>
+                  { bookings 
+                  ? <DateInput className='text-center' id='dateDeparture' {...regBook("dateDeparture").value} selected={departureDate} onChange={date => setDepartureDate(date)} type='date' minDate={arrivalDate} excludeDates={getDaysArray(bookings)} dateFormat="dd/MM/yyyy" defaultValue={departureDate.toISOString()}></DateInput>
+                  : <Loader />
+                  }
                   <Error>{errorsBook.dateDeparture?.message}</Error>
                 </div>
               </div>

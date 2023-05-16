@@ -205,7 +205,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
           <hr />
           <h2 className="mt-5">Upcoming Bookings</h2>
           {data.bookings.map((data) => (
-            <div key={data.venue.id}>
+            <div key={data.id}>
               { data.dateTo >= new Date().toISOString()
                     ? <div className="d-flex flex-wrap mb-5">
                     <VenueCard className="position-relative" title="Takes you to the venue page" to={`/venue/${data.venue.id}`}>
@@ -303,7 +303,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
         ? <>
         <h2 className="mt-5">Old Bookings</h2>
         {data.bookings.map((data) => (
-          <div key={data.venue.id}>
+          <div key={data.id}>
             { data.dateTo < new Date().toISOString()
                   ? <div className="d-flex flex-wrap mb-5">
                   <VenueCard className="position-relative" title="Takes you to the venue page" to={`/venue/${data.venue.id}`}>
@@ -405,7 +405,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                             { data.meta.breakfast 
                                 ? <img src={FoodIcon} className="card-icons" alt="breakfast icon"/> 
                                 : "" }
-                            { data.meta.parking 
+                            { data.meta.pets 
                                 ? <img src={PetsIcon} className="card-icons" alt="pets icon"/>
                                 : "" }
                         </div>
