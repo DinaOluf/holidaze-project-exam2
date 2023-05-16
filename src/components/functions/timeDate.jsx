@@ -1,7 +1,7 @@
 /**
  * @param {string | Date} date a date encoded string or date object
  * @returns {string} a formatted date string like;
- * "Monday, 1st Jan 2001 at 15:00"
+ * "Monday, 1 Jan 2001 at 15:00"
  */
 
 export const formatDate = (date) =>

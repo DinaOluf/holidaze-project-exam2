@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import useApi from '../useApi';
+import useApi from '../functions/useApi';
 import { Loader } from '../styles/loader.styles';
 import PlaceholderImg from '../../assets/images/placeholder-image.png';
 import PersonIcon from "../../assets/images/person-icon.png";
@@ -12,7 +12,7 @@ import ProfileImg from "../../assets/images/profile-icon.png";
 import { DateInput, InputGuests, PersonIconStyle, VenueImgContainer, ServicesIcons } from '../styles/venue.styling';
 import { ProfileImgStyle } from '../styles/icons.styles';
 import { Button, Button2, ButtonSmaller, ButtonSmaller2 } from '../styles/buttons.styles';
-import { formatDate } from '../timeDate';
+import { formatDate } from '../functions/timeDate';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';

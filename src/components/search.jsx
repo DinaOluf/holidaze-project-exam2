@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useApi from "./useApi";
+import useApi from "./functions/useApi";
 import MagnifyingGlass from "../assets/images/search-icon.png";
 import { SearchWrap } from "./styles/searchWrap.styled";
 import { VenueCard } from "./styles/venueCard.styles";

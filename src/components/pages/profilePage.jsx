@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { ProfileImgStyle, EditIconStyle } from "../styles/icons.styles";
 import PlaceholderImage from "../../assets/images/profile-icon.png";
-import useApi from "../useApi";
+import useApi from "../functions/useApi";
 import { Loader } from "../styles/loader.styles";
 import { VenueCard } from "../styles/venueCard.styles";
 import PersonIcon from "../../assets/images/person-icon.png";
@@ -34,9 +34,7 @@ const schema = yup
 
 function ProfilePage() {
   let params = useParams();
-  // const navigate = useNavigate();
   const userName = localStorage.getItem("Name");
-  // const date = new Date().toISOString().slice(0, 10);
   const [ imgUrl, setImgUrl] = useState(PlaceholderImage);
 
   useEffect(() => {
@@ -301,7 +299,6 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
         </>
         : ""
         }
-
         {data.bookings && data.bookings.length !== 0
         ? <>
         <h2 className="mt-5">Old Bookings</h2>

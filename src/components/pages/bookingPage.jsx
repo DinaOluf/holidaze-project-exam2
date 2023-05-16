@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import useApi from '../useApi';
+import useApi from '../functions/useApi';
 import { Loader } from '../styles/loader.styles';
 import PlaceholderImg from '../../assets/images/placeholder-image.png';
 import PersonIcon from "../../assets/images/person-icon.png";
