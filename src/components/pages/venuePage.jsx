@@ -90,6 +90,41 @@ function VenuePage() {
     'GET'
   );
 
+  useEffect(() => {
+    document.title = `Holidaze | Venue | ${data.name}`; 
+ }, [data]);
+
+ const { register: regBook, handleSubmit: handleBook, formState: { errors: errorsBook }, reset: resetBook } = useForm({
+  resolver: yupResolver(schema),
+});
+
+const { register: regEdit, handleSubmit: handleEdit, formState: { errors: errorsEdit }, reset: resetEdit } = useForm({
+  resolver: yupResolver(venueSchema),
+});
+
+  if (isLoading) {
+    return <main id="container d-flex flex-column p-5">
+      <div className="d-flex justify-content-center mt-4">
+          <Loader className="spinner-grow text-secondary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+          </Loader>
+      </div>
+  </main>;
+  }
+  
+  if (isError || data.errors) {
+    return <main id="container d-flex flex-column p-5">
+      {data.errors
+      ? <div className="d-flex justify-content-center mt-4">
+          {data.errors[0].message}. Please try again later.
+        </div>
+      : <div className="d-flex justify-content-center mt-4">
+          An error occurred. Please try again later.
+        </div>
+      }
+  </main>;
+  }
+
   const bookings = data.bookings;
 
   const onClickConfirm = async (e) => {
@@ -185,17 +220,6 @@ function VenuePage() {
 
 // excludeDates={getDaysArray(data.bookings)}
 
-  useEffect(() => {
-    document.title = `Holidaze | Venue | ${data.name}`; 
- }, [data]);
-
- const { register: regBook, handleSubmit: handleBook, formState: { errors: errorsBook }, reset: resetBook } = useForm({
-  resolver: yupResolver(schema),
-});
-
-const { register: regEdit, handleSubmit: handleEdit, formState: { errors: errorsEdit }, reset: resetEdit } = useForm({
-  resolver: yupResolver(venueSchema),
-});
 
 const onSubmitHandler = async (e) => {
   const url = "https://api.noroff.dev/api/v1/holidaze/bookings"
@@ -233,24 +257,6 @@ const onSubmitHandler = async (e) => {
 
   resetBook();
 };
-  
-  if (isLoading) {
-    return <main id="container d-flex flex-column p-5">
-      <div className="d-flex justify-content-center mt-4">
-          <Loader className="spinner-grow text-secondary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-          </Loader>
-      </div>
-  </main>;
-  }
-  
-  if (isError) {
-    return <main id="container d-flex flex-column p-5">
-      <div className="d-flex justify-content-center mt-4">
-          An error occurred. Please refresh.
-      </div>
-  </main>;
-  }
 
     return <main id="container p-5">
       <div className="d-flex justify-content-center mt-4">
