@@ -281,9 +281,9 @@ const onSubmitHandler = async (e) => {
                     <img src={data.media[0]} className="d-block w-100" alt="accommodation" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
                             { e.target.onerror = null; e.target.src=PlaceholderImg; } }}/>
                   </VenueImgContainer>
-                : <VenueImgContainer className="carousel-item">
-                <img src={PlaceholderImg} className="d-block w-100" alt="accommodation" />
-              </VenueImgContainer>
+                : <VenueImgContainer className="carousel-item active">
+                    <img src={PlaceholderImg} className="d-block w-100" alt="accommodation" />
+                  </VenueImgContainer>
               }
               { data.media && data.media.length >= 2
                 ? <VenueImgContainer className="carousel-item">
