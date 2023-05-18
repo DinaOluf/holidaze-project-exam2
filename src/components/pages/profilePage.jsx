@@ -264,7 +264,7 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                         </div>
                         <div className="d-flex flex-wrap gap-2">
                           <ButtonSmaller2 onClick={() => onClickConfirm(data.id)}>Cancel</ButtonSmaller2>
-                          <ButtonSmaller title="Edit this booking" to={`/booking/${data.id}`}>Edit</ButtonSmaller>
+                          <ButtonSmaller title="Edit this booking" to={`/booking/${data.id}/${data.venue.id}`}>Edit</ButtonSmaller>
                         </div>
                       </div>
                     </>

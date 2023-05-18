@@ -209,7 +209,7 @@ const { register: regEdit, handleSubmit: handleEdit, formState: { errors: errors
     resetEdit();
    };
 
-  var getDaysArray = function(bookings) {
+  const getDaysArray = function(bookings) {
     let arr = [];
     for (let i = 0; i < bookings.length; i++) {
       for(let dt=new Date(bookings[i].dateFrom); dt<=new Date(bookings[i].dateTo); dt.setDate(dt.getDate()+1)){
@@ -343,14 +343,14 @@ const onSubmitHandler = async (e) => {
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateArrival'>Date of arrival</label>
                   { bookings 
-                  ? <DateInput className='text-center' id='dateArrival' {...regBook("dateArrival").value} selected={arrivalDate} onChange={date => setArrivalDate(date)} type='date' minDate={date} excludeDates={getDaysArray(bookings)} dateFormat={`dd/MM/yyyy`} defaultValue={arrivalDate.toISOString()}></DateInput>
+                  ? <DateInput className='text-center' id='dateArrival' {...regBook("dateArrival").value} selected={arrivalDate} onChange={date => setArrivalDate(date)} type='date' minDate={date} excludeDates={getDaysArray(bookings)} dateFormat={`dd/MM/yyyy`} defaultValue={arrivalDate.toISOString()} calendarStartDay={1}></DateInput>
                   : <Loader /> }
                   <Error>{errorsBook.dateArrival?.message}</Error>
                 </div>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateDeparture'>Date of departure</label>
                   { bookings 
-                  ? <DateInput className='text-center' id='dateDeparture' {...regBook("dateDeparture").value} selected={departureDate} onChange={date => setDepartureDate(date)} type='date' minDate={arrivalDate} excludeDates={getDaysArray(bookings)} dateFormat="dd/MM/yyyy" defaultValue={departureDate.toISOString()}></DateInput>
+                  ? <DateInput className='text-center' id='dateDeparture' {...regBook("dateDeparture").value} selected={departureDate} onChange={date => setDepartureDate(date)} type='date' minDate={arrivalDate} excludeDates={getDaysArray(bookings)} dateFormat="dd/MM/yyyy" defaultValue={departureDate.toISOString()} calendarStartDay={1}></DateInput>
                   : <Loader />
                   }
                   <Error>{errorsBook.dateDeparture?.message}</Error>
