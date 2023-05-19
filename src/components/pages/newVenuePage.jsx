@@ -111,6 +111,7 @@ const onSubmitHandler = async (e) => {
     const json = await response.json();
     console.log(json); //remove
     if ( json.id ) {
+      reset();
       navigate(`/venue/${json.id}`);
     } else {
       alert(json.errors[0].message);
@@ -119,8 +120,6 @@ const onSubmitHandler = async (e) => {
   } catch (error) {
     console.log(error);
   }
-
-  reset();
 };
 
     return <main id="container p-5">

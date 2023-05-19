@@ -52,7 +52,6 @@ function Nav() {
                             </NavLink>
                         </li>
                         <li className='col-3 col-sm-2 px-0 text-center'>
-                            {/* Remember to make event listener for logout - should not be a link */}
                             <NavLinkDiv onClick={() => handleLogout()}> 
                                 Log out
                             </NavLinkDiv>
@@ -73,7 +72,6 @@ function Nav() {
                             </NavLink>
                         </li>
                         <li className='col-3 col-sm-2 col-xxl-1 px-0 text-center'>
-                            {/* Remember to make event listener for logout - should not be a link */}
                             <NavLinkDiv onClick={() => handleLogout()}> 
                                 Log out
                             </NavLinkDiv>

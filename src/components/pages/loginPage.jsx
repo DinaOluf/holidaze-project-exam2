@@ -45,24 +45,21 @@ function LoginPage() {
       };
 
       try {
-        console.log(data); //remove
         const response = await fetch(url, options);
         const json = await response.json();
-        console.log(json); //remove
         if ( json.accessToken ) {
           localStorage.setItem("Token", json.accessToken);
           localStorage.setItem("Name", json.name);
           localStorage.setItem("Manager", json.venueManager);
+          reset();
           navigate("/");
-        } else {
+        } if (json.errors) {
           alert(json.errors[0].message);
         }
 
       } catch (error) {
         console.log(error);
       }
-
-      reset();
   };
  
     return (

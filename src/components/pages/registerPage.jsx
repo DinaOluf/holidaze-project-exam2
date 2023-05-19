@@ -77,21 +77,18 @@ function RegisterPage() {
       };
 
       try {
-        console.log(data); //remove
         const response = await fetch(url, options);
         const json = await response.json();
-        console.log(json); //remove
         if ( json.id ) {
+          reset();
           navigate("/login");
-        } else {
+        } if (json.errors){
           alert(json.errors[0].message);
         }
 
       } catch (error) {
         console.log(error);
       }
-
-      reset();
     };
 
   postData(newData);

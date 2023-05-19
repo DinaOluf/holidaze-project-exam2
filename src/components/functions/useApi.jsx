@@ -1,5 +1,23 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Gets the API endpoint with accessToken
+ * @param {string} url the url to the API endpoint
+ * @param {string} method 'GET'/'POST'/'PUT'/'DELETE'
+ * @param {string} token the accessToken
+ * @returns { object, boolean, boolean } object from API, 
+ * if it's loading and if there's an error.
+ * @example
+ * ```js
+ * // Use this function to get an API endpoint with a url,
+ * // method and accessToken.
+ * const { data, isLoading, isError } = useApi(
+    'https://api.example.com/api/endpoint',
+    'GET',
+    'accessToken'
+  );
+ * ```
+ */
 function useApi(url, method, info) {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +42,7 @@ function useApi(url, method, info) {
 
           const response = await fetch(url, options);
           const json = await response.json();
+          console.log(json) //remove
           setData(json);
 
         } catch (error) {
