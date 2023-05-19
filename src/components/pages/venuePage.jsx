@@ -83,9 +83,8 @@ function VenuePage() {
   const navigate = useNavigate();
   const date = new Date();
   const [ arrivalDate, setArrivalDate] = useState(date);
-  const [ departureDate, setDepartureDate] = useState(arrivalDate);
+  const [ departureDate, setDepartureDate] = useState(new Date(arrivalDate.getTime() + 86400000));
   const userName = localStorage.getItem("Name");
-
 
   const { data, isLoading, isError } = useApi(
     'https://api.noroff.dev/api/v1/holidaze/venues/'+params.id+'?_owner=true&_bookings=true',
@@ -196,17 +195,16 @@ const { register: regEdit, handleSubmit: handleEdit, formState: { errors: errors
     try {
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json); //remove
       if ( json.name ) {
+        resetEdit();
         window.location.reload(); 
-      } else {
+      } if ( json.errors ) {
         alert(json.errors[0].message);
       }
    
     } catch (error) {
       console.log(error);
     }
-    resetEdit();
    };
 
   const getDaysArray = function(bookings) {
@@ -216,7 +214,6 @@ const { register: regEdit, handleSubmit: handleEdit, formState: { errors: errors
         arr.push(new Date(dt));
       }
     } 
-    console.log(arr) //remove
     return arr; 
 };
 
@@ -244,18 +241,16 @@ const onSubmitHandler = async (e) => {
   try {
     const response = await fetch(url, options);
     const json = await response.json();
-    console.log(json); //remove
     if ( json.id ) {
+      resetBook();
       navigate("/booked-success");
-    } else {
-      console.log("Some error occured");
+    } if ( json.errors ) {
+      alert(json.errors[0].message);
     }
 
   } catch (error) {
     console.log(error);
   }
-
-  resetBook();
 };
 
     return <main id="container p-5">
@@ -338,7 +333,8 @@ const onSubmitHandler = async (e) => {
               </div>
             </div>
             <div className='fs-5 mb-4'>{data.price},- per night</div>
-            <form className='d-flex justify-content-between flex-wrap gap-2' onSubmit={handleBook(onSubmitHandler)}>
+            { userName
+              ? <form className='d-flex justify-content-between flex-wrap gap-2' onSubmit={handleBook(onSubmitHandler)}>
               <div className='col d-flex justify-content-evenly'>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateArrival'>Date of arrival</label>
@@ -350,7 +346,7 @@ const onSubmitHandler = async (e) => {
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor='dateDeparture'>Date of departure</label>
                   { bookings 
-                  ? <DateInput className='text-center' id='dateDeparture' {...regBook("dateDeparture").value} selected={departureDate} onChange={date => setDepartureDate(date)} type='date' minDate={arrivalDate} excludeDates={getDaysArray(bookings)} dateFormat="dd/MM/yyyy" defaultValue={departureDate.toISOString()} calendarStartDay={1}></DateInput>
+                  ? <DateInput className='text-center' id='dateDeparture' {...regBook("dateDeparture").value} selected={departureDate} onChange={date => setDepartureDate(date)} type='date' minDate={new Date(arrivalDate.getTime() + 86400000)} excludeDates={getDaysArray(bookings)} dateFormat="dd/MM/yyyy" defaultValue={departureDate.toISOString()} calendarStartDay={1}></DateInput>
                   : <Loader />
                   }
                   <Error>{errorsBook.dateDeparture?.message}</Error>
@@ -368,6 +364,16 @@ const onSubmitHandler = async (e) => {
                 <Button>Book</Button>
               </div>
             </form>
+              : <div className='d-flex justify-content-center'>
+                  <div className='fs-5'>
+                    <Links to='/login'>Log in</Links>
+                    <span> / </span>
+                    <Links to='/register'>Register</Links>
+                    <span> to book a venue.</span>
+                  </div>
+              </div>
+            }
+
             <div>
               <h2 className='border-bottom border-dark w-100 mt-4'>Services</h2>
               <div className="d-flex justify-content-evenly my-4">

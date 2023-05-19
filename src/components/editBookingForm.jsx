@@ -200,7 +200,7 @@ function EditBooking(props) {
                 </div>
                 <div className='d-flex flex-column fs-5'>
                   <label htmlFor="dateDeparture">Date of departure</label>
-                  <DateInput className='text-center' id="dateDeparture" {...register("dateDeparture").value} selected={departureDate} onChange={date => setDepartureDate(date)} type='date' minDate={arrivalDate} excludeDates={getDaysArray(venue.bookings)} dateFormat="dd/MM/yyyy" defaultValue={departureDate} calendarStartDay={1}></DateInput>
+                  <DateInput className='text-center' id="dateDeparture" {...register("dateDeparture").value} selected={departureDate} onChange={date => setDepartureDate(date)} type='date' minDate={new Date(arrivalDate.getTime() + 86400000)} excludeDates={getDaysArray(venue.bookings)} dateFormat="dd/MM/yyyy" defaultValue={departureDate} calendarStartDay={1}></DateInput>
                   <Error>{errors.dateDeparture?.message}</Error>
                 </div>
                 <div className='d-flex flex-column fs-5'>
