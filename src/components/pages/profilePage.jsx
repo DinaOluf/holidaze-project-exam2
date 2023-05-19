@@ -48,6 +48,10 @@ function ProfilePage() {
 function setNewImage(value) {
   if(value.match(/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/)) {
     setImgUrl(value);
+  } if ((value === "" || (!value.match(/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/))) && !(data.avatar === null || data.avatar === "")){
+    setImgUrl(data.avatar);
+  } if((!value.match(/(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/)) && (data.avatar === null || data.avatar === "")) {
+    setImgUrl(PlaceholderImage);
   }
 }
 
@@ -62,7 +66,11 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
   );
 
   useEffect(() => {
-    setImgUrl(data.avatar);
+    if(data.avatar === null || data.avatar === "") {
+      setImgUrl(PlaceholderImage);
+    } else {
+      setImgUrl(data.avatar);
+    }
 }, [data.avatar]);
 
   const onSaveImgHandler = async (e) => {
@@ -85,17 +93,17 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
     try {
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json); //remove
       if ( json.name ) {
+        reset();
         window.location.reload(); 
-      } else {
-        console.log("Some error occured");
+      } if (json.errors){
+        alert(json.errors[0].message);
       }
    
     } catch (error) {
       console.log(error);
     }
-    reset();
+
    };
 
   const onClickConfirm = async (e) => {
@@ -160,8 +168,9 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
         <div className="d-flex align-items-center">
           <div className=" position-relative">
             <ProfileImgStyle className="me-2">
-            { data.avatar && data.avatar
-              ? <img src={data.avatar} alt="Personal profile" />
+            { data.avatar
+              ? <img src={data.avatar} alt="Personal profile" onError={(e)=>{ if (e.target.src !== PlaceholderImg) 
+                { e.target.onerror = null; e.target.src=PlaceholderImage; } }}/>
               : <img src={PlaceholderImage} alt="Personal profile" />
             }
             </ProfileImgStyle>
@@ -177,7 +186,8 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                       </div>
                       <div className="modal-body row gap-1 align-items-center p-4">
                         <ProfileImgStyle className="p-0">
-                          <img src={imgUrl} alt="Personal profile" />
+                          <img src={imgUrl} alt="Personal profile" onError={(e)=>{ if (e.target.src !== PlaceholderImage) 
+                            { e.target.onerror = null; e.target.src=PlaceholderImage; } }}/>
                         </ProfileImgStyle>
                         <div className="col">
                           <label className="fs-5" htmlFor='editImg'>Direct Image Link (generate on <Links target="_blank" to="https://postimages.org/">postimages.org</Links>)</label>
