@@ -172,7 +172,6 @@ function EditBooking(props) {
         try {
           const response = await fetch(url, options);
           const json = await response.json();
-          console.log(json); //remove
           if ( json.id ) {
             navigate("/booked-success");
           } else {
@@ -185,8 +184,6 @@ function EditBooking(props) {
        
         reset();
        };
-
-       console.log(venue)
 
     return (
         <>

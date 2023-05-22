@@ -42,7 +42,6 @@ function useApi(url, method, info) {
 
           const response = await fetch(url, options);
           const json = await response.json();
-          console.log(json) //remove
           setData(json);
 
         } catch (error) {
