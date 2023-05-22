@@ -96,7 +96,7 @@ function Search () {
             <div className="d-flex flex-wrap gap-4 align-self-center align-items-center justify-content-center">
                 <SearchWrap>
                     <img src={ MagnifyingGlass } alt="" />
-                    <input onChange={(e) => setSearchInput(e.currentTarget.value)} id="searchInput" value={searchInput}></input>
+                    <input onChange={(e) => setSearchInput(e.currentTarget.value)} id="searchInput" aria-label="Search input" value={searchInput}></input>
                 </SearchWrap>
                 <div className="d-flex gap-3">
                     <div>

@@ -270,17 +270,17 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                       ? <>
                           <div className='d-flex flex-column justify-content-between flex-wrap ms-2'>
                             <div className='d-flex flex-column fs-5'>
-                              <label htmlFor={`dateArrival-${data.id}`}>Date of arrival</label>
-                              <div id={`dateArrival-${data.id}`}>{data.dateFrom.slice(0, 10)}</div>
+                              <div>Date of arrival</div>
+                              <div>{data.dateFrom.slice(0, 10)}</div>
                             </div>
                             <div className='d-flex flex-column fs-5'>
-                              <label htmlFor={`dateDeparture-${data.id}`}>Date of departure</label>
-                              <div id={`dateDeparture-${data.id}`}>{data.dateTo.slice(0, 10)}</div>
+                              <div>Date of departure</div>
+                              <div>{data.dateTo.slice(0, 10)}</div>
                             </div>
                             <div className='d-flex flex-column fs-5'>
-                              <label htmlFor={`numberGuests-${data.id}`}>Guest(s)</label>
+                              <div>Guest(s)</div>
                               <div className='d-flex'>
-                                <div id={`numberGuests-${data.id}`} className='text-end'>{data.guests}</div>
+                                <div className='text-end'>{data.guests}</div>
                                 <PersonIconStyle src={PersonIcon} alt='Person icon' />
                               </div>
                             </div>
@@ -293,17 +293,17 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                       : <>
                           <div className='d-flex flex-column justify-content-between flex-wrap ms-2'>
                             <div className='d-flex flex-column fs-5'>
-                              <label htmlFor={`dateArrival-${data.id}`}>Date of arrival</label>
-                              <div id={`dateArrival-${data.id}`}>{data.dateFrom.slice(0, 10)}</div>
+                              <div>Date of arrival</div>
+                              <div>{data.dateFrom.slice(0, 10)}</div>
                             </div>
                             <div className='d-flex flex-column fs-5'>
-                              <label htmlFor={`dateDeparture-${data.id}`}>Date of departure</label>
-                              <div id={`dateDeparture-${data.id}`}>{data.dateTo.slice(0, 10)}</div>
+                              <div>Date of departure</div>
+                              <div>{data.dateTo.slice(0, 10)}</div>
                             </div>
                             <div className='d-flex flex-column fs-5'>
-                              <label htmlFor={`numberGuests-${data.id}`}>Guest(s)</label>
+                              <label>Guest(s)</label>
                               <div className='d-flex'>
-                                <div id={`numberGuests-${data.id}`} className='text-end'>{data.guests}</div>
+                                <div className='text-end'>{data.guests}</div>
                                 <PersonIconStyle src={PersonIcon} alt='Person icon' />
                               </div>
                             </div>
@@ -366,17 +366,17 @@ const { register, handleSubmit, formState: { errors }, reset } = useForm({
                   </VenueCard>
                   <div className='d-flex flex-column justify-content-between flex-wrap ms-2'>
                     <div className='d-flex flex-column fs-5'>
-                      <label htmlFor={`dateArrival-${data.id}`}>Date of arrival</label>
-                      <div id={`dateArrival-${data.id}`}>{data.dateFrom.slice(0, 10)}</div>
+                      <div>Date of arrival</div>
+                      <div>{data.dateFrom.slice(0, 10)}</div>
                     </div>
                     <div className='d-flex flex-column fs-5'>
-                      <label htmlFor={`dateDeparture-${data.id}`}>Date of departure</label>
-                      <div id={`dateDeparture-${data.id}`}>{data.dateTo.slice(0, 10)}</div>
+                      <div>Date of departure</div>
+                      <div>{data.dateTo.slice(0, 10)}</div>
                     </div>
                     <div className='d-flex flex-column fs-5'>
-                      <label htmlFor={`numberGuests-${data.id}`}>Guest(s)</label>
+                      <div>Guest(s)</div>
                       <div className='d-flex'>
-                        <div id={`numberGuests-${data.id}`} className='text-end'>{data.guests}</div>
+                        <div className='text-end'>{data.guests}</div>
                         <PersonIconStyle src={PersonIcon} alt='Person icon' />
                       </div>
                     </div>
