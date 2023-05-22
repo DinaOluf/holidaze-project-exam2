@@ -8,7 +8,15 @@
 }
 
   h1, h2, h3, h4, h5, h6, nav {
-    font-family: "Mercy", Arial, Helvetica, sans-serif;
+    font-family: "Mercy", Optima light, Segoe light, Segoe UI light, Candara light, Calibri light, Arial light, sans-serif;
+  }
+
+  #root {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   main, footer {
@@ -16,8 +24,8 @@
   }
 
   main {
-    padding-bottom: 2.5rem;
-    height: 100%;
+    padding-bottom: auto;
+    margin-bottom: 2.5rem;
   }
 
 /* .App {
