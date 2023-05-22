@@ -1,10 +1,11 @@
 import { Button } from "../styles/buttons.styles";
 import { Input, Error } from "../styles/form.styles";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from "react-router-dom"; 
+import DocumentMeta from 'react-document-meta';
 
 const schema = yup
   .object({
@@ -27,9 +28,16 @@ function LoginPage() {
   const navigate = useNavigate();
   const url = "https://api.noroff.dev/api/v1/holidaze/auth/login";
 
-  useEffect(() => {
-    document.title = "Holidaze | Log in"
- }, []);
+  const meta = {
+    title: 'Holidaze | Login',
+    description: 'Holidaze is an accommodation website where you can book venues for specific dates. View and book an amazing venue for your holiday today!',
+    meta: {
+        charset: 'utf-8',
+        name: {
+            keywords: 'holidaze, accommodation, venues, hotels, housing, react, rent, booking, vacation, holiday'
+        }
+      }
+   }
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     resolver: yupResolver(schema),
@@ -63,26 +71,30 @@ function LoginPage() {
   };
  
     return (
-    <main className="container d-flex justify-content-center align-items-center h-100">
-      <div className="col-10 col-lg-6 col-xl-5 mb-5">
-        <h1 className="mb-4">
-          Log in
-        </h1>
-        <form className="d-flex flex-column gap-4" onSubmit={handleSubmit(onSubmitHandler)}>
-          <div className="d-flex flex-column">
-            <label className="fs-5" htmlFor='email'>E-mail</label>
-            <Input id="email" {...register("email")} />
-            <Error>{errors.email?.message}</Error>
+      <>
+        <DocumentMeta {...meta} />
+        <main className="container d-flex justify-content-center align-items-center h-100">
+          <div className="col-10 col-lg-6 col-xl-5 mb-5">
+            <h1 className="mb-4">
+              Log in
+            </h1>
+            <form className="d-flex flex-column gap-4" onSubmit={handleSubmit(onSubmitHandler)}>
+              <div className="d-flex flex-column">
+                <label className="fs-5" htmlFor='email'>E-mail</label>
+                <Input id="email" {...register("email")} />
+                <Error>{errors.email?.message}</Error>
+              </div>
+              <div className="d-flex flex-column">
+                <label className="fs-5" htmlFor='password'>Password</label>
+                <Input id="password" type="password" {...register("password")} />
+                <Error>{errors.password?.message}</Error>
+              </div>
+              <Button className="align-self-center" type="submit">Log in</Button>
+            </form>
           </div>
-          <div className="d-flex flex-column">
-            <label className="fs-5" htmlFor='password'>Password</label>
-            <Input id="password" type="password" {...register("password")} />
-            <Error>{errors.password?.message}</Error>
-          </div>
-          <Button className="align-self-center" type="submit">Log in</Button>
-        </form>
-      </div>
-    </main>);
+        </main>
+      </>
+    )
   }
 
   export default LoginPage;

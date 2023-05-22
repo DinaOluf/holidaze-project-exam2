@@ -6,9 +6,21 @@ import PersonIcon from "../../assets/images/person-icon.png";
 import { PersonIconStyle, VenueImgContainer } from '../styles/venue.styling';
 import "react-datepicker/dist/react-datepicker.css";
 import EditBooking from '../editBookingForm';
+import DocumentMeta from 'react-document-meta';
 
 function BookingPage() {
  let params = useParams();
+
+ const meta = {
+  title: 'Holidaze | Booking',
+  description: 'Holidaze is an accommodation website where you can book venues for specific dates. View and book an amazing venue for your holiday today!',
+  meta: {
+      charset: 'utf-8',
+      name: {
+          keywords: 'holidaze, accommodation, venues, hotels, housing, react, rent, booking, vacation, holiday'
+      }
+    }
+ }
 
  const { data, isLoading, isError } = useApi(
    'https://api.noroff.dev/api/v1/holidaze/bookings/'+params.id+'?_venue=true&_customer=true',
@@ -33,7 +45,10 @@ function BookingPage() {
  </main>;
  }
 
-   return <main id="container p-5">
+   return (
+    <>
+    <DocumentMeta {...meta} />
+   <main id="container p-5">
      <div className="d-flex justify-content-center mt-4">
        <div className='col-11 col-sm-9 col-xl-7 rounded-5 overflow-hidden pb-4'>
          <div id="carouselIndicators" className="carousel slide" data-bs-ride="true">
@@ -131,7 +146,9 @@ function BookingPage() {
          </div>
        </div>
      </div>
- </main>;
+ </main>
+ </>
+   )
   }
 
   export default BookingPage;
