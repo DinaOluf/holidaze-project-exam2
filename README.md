@@ -93,7 +93,7 @@ https://stackoverflow.com/questions/34097560/react-js-replace-img-src-onerror - 
 
 https://www.npmjs.com/package/react-confirm-alert - React Confirm Alert 
 
-https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates - find all dates between two dates and put them in an array
+https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates - put all days between two dates in an array
 
 https://dev.to/char502/how-to-use-regular-expressions-in-javascript-5n2 - REGEX in JS
 
