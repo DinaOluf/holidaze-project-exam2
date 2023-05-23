@@ -74,12 +74,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 This project is licensed under the [Boost Software License - Version 1.0](https://www.boost.org/LICENSE_1_0.txt)
 
 
-## Acknowledgments
-
-[Noroff - School of technology and digital media](https://www.noroff.no/)
-
-
-## Additional Sources
+## Sources
 
 https://react.dev/learn - React learning
 
@@ -100,3 +95,8 @@ https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-betwee
 https://dev.to/char502/how-to-use-regular-expressions-in-javascript-5n2 - REGEX in JS
 
 https://reactdatepicker.com/ - React datepicker
+
+
+## Acknowledgments
+
+[Noroff - School of technology and digital media](https://www.noroff.no/)
