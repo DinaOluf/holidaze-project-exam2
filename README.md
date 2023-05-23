@@ -1,6 +1,6 @@
 # [Holidaze](https://holidazeproject.netlify.app/) (Project Exam 2)
 
---------- IMAGE ---------- 
+![image](https://github.com/DinaOluf/holidaze-project-exam2/assets/91533917/fb5c3154-9fa6-45da-bc80-bf546042e759)
 
 
 An Accommodation Application.
