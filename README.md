@@ -2,8 +2,8 @@
 
 ![image](https://github.com/DinaOluf/holidaze-project-exam2/assets/91533917/48af3569-0fb0-490a-9453-b65a813c0fd8)
 
-
 An Accommodation Application.
+
 
 ## Description
 
@@ -38,6 +38,7 @@ Site Architecture:
 - [Bootstrap](https://getbootstrap.com/docs/5.2/)
 - Noroff API
 
+
 ## Getting Started
 
 ### Installing
@@ -47,6 +48,7 @@ Clone the repo:
 ```bash
 git clone git@github.com:DinaOluf/holidaze-project-exam2.git
 ```
+
 
 ### Running
 
@@ -60,9 +62,11 @@ npm ci
 npm start 
 ```
 
+
 ## Contributing
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request.
+
 
 ## Contact
 
