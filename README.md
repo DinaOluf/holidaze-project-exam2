@@ -82,11 +82,19 @@ This project is licensed under the [Boost Software License - Version 1.0](https:
 ## Additional Sources
 
 https://react.dev/learn - React learning
+
 https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_interactivity_events_state - MDN React Event and State
+
 https://www.w3schools.com/react/react_events.asp - React Events (W3Schools)
+
 https://reactrouter.com/en/main/start/tutorial - React router dom
+
 https://stackoverflow.com/questions/34097560/react-js-replace-img-src-onerror - React onError for images
+
 https://www.npmjs.com/package/react-confirm-alert - React Confirm Alert 
+
 https://stackoverflow.com/questions/4413590/javascript-get-array-of-dates-between-2-dates - find all dates between two dates and put them in an array
+
 https://dev.to/char502/how-to-use-regular-expressions-in-javascript-5n2 - REGEX in JS
+
 https://reactdatepicker.com/ - React datepicker
