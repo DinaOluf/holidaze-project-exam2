@@ -3,7 +3,6 @@
  * @returns {string} a formatted date string like;
  * "Monday, 1 Jan 2001 at 15:00"
  */
-
 export const formatDate = (date) =>
   new Date(date).toLocaleString("en-ZA", {
     weekday: "long",
