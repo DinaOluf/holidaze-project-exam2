@@ -1,4 +1,5 @@
 # [Holidaze](https://holidazeproject.netlify.app/) (Project Exam 2)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f3b25f24-5130-4c72-90af-2cfb289e3a45/deploy-status)](https://app.netlify.com/sites/holidazeproject/deploys)
 
 ![image](https://github.com/DinaOluf/holidaze-project-exam2/assets/91533917/48af3569-0fb0-490a-9453-b65a813c0fd8)
 
