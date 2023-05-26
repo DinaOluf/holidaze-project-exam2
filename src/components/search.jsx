@@ -20,7 +20,7 @@ function Search() {
   const [parkingInput, setParkingInput] = useState(false);
   const [breakfastInput, setBreakfastInput] = useState(false);
   const [petsInput, setPetsInput] = useState(false);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredVenues, setFilteredVenues] = useState([]);
 
   const { data, isLoading, isError } = useApi(
     "https://api.noroff.dev/api/v1/holidaze/venues?sort=created",
@@ -28,7 +28,7 @@ function Search() {
   );
 
   useEffect(() => {
-    setFilteredProducts([]);
+    setFilteredVenues([]);
 
     let results = data.filter((venue) => {
       if (searchInput !== "") {
@@ -62,7 +62,7 @@ function Search() {
       });
     }
 
-    setFilteredProducts(results);
+    setFilteredVenues(results);
   }, [wifiInput, parkingInput, breakfastInput, petsInput, data, searchInput]);
 
   const cut20 = (line) => {
@@ -157,7 +157,7 @@ function Search() {
       <div>
         {searchInput !== `` ? (
           <div className="d-flex justify-content-center gap-4 mt-4 flex-wrap">
-            {filteredProducts.map((data) => (
+            {filteredVenues.map((data) => (
               <VenueCard
                 className="position-relative"
                 key={data.id}
@@ -245,7 +245,7 @@ function Search() {
           </div>
         ) : (
           <div className="d-flex justify-content-center gap-4 mt-4 flex-wrap">
-            {filteredProducts.map((data) => (
+            {filteredVenues.map((data) => (
               <VenueCard
                 className="position-relative"
                 key={data.id}
